@@ -1,4 +1,5 @@
 import AntDesign from "@expo/vector-icons/AntDesign";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Octicons from "@expo/vector-icons/Octicons";
 import { Tabs } from "expo-router";
@@ -19,7 +20,6 @@ export default function TabLayout() {
           title: "Home",
           tabBarIcon: ({ color }) => (
             <AntDesign name="dashboard" size={28} color={color} />
-            // <IconSymbol size={28} name="house.fill" color={color} />
           ),
         }}
       />
@@ -29,7 +29,6 @@ export default function TabLayout() {
           title: "Customer",
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="person" size={28} color={color} />
-            // <IconSymbol size={28} name="paperplane.fill" color={color} />
           ),
         }}
       />
@@ -39,7 +38,15 @@ export default function TabLayout() {
           title: "Transaction",
           tabBarIcon: ({ color }) => (
             <Octicons name="arrow-switch" size={28} color={color} />
-            // <IconSymbol size={28} name="paperplane.fill" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "Settings",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome6 name="gear" size={28} color={color} />
           ),
         }}
       />

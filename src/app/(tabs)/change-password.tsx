@@ -90,7 +90,8 @@ export default function ChangePasswordScreen(): JSX.Element {
       });
 
       reset();
-      setTimeout(() => router.back(), 1500);
+      // added delay to navigate back for showing toast
+      setTimeout(() => router.back(), 500);
     } catch (error) {
       if (isAxiosError(error)) {
         const status = error.response?.status;

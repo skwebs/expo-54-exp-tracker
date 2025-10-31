@@ -56,9 +56,13 @@ export default function TabLayout() {
         options={{
           title: "Change Password",
           href: null,
-          tabBarIcon: ({ color }) => (
-            <FontAwesome6 name="gear" size={28} color={color} />
-          ),
+        }}
+      />
+      <Tabs.Screen
+        name="update-details"
+        options={{
+          title: "Update Details",
+          href: null,
         }}
       />
     </Tabs>

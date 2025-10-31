@@ -1,3 +1,4 @@
+//project/src/store/authStore.ts
 import { secureStorage } from '@/lib/secureStorage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
@@ -14,6 +15,7 @@ interface AuthState {
     // Actions
     setAuth: (token: string, user: AuthState['user']) => void;
     logout: () => void;
+    updateUser: (user: Partial<AuthState['user']>) => void; // ✅ Add this
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -36,6 +38,12 @@ export const useAuthStore = create<AuthState>()(
                     user: null,
                     isAuthenticated: false
                 }),
+
+            // ✅ Add updateUser method
+            updateUser: (updatedUser) =>
+                set((state) => ({
+                    user: state.user ? { ...state.user, ...updatedUser } : null
+                })),
         }),
         {
             name: 'auth-storage', // unique name for storage key

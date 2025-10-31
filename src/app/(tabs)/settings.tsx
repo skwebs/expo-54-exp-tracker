@@ -147,6 +147,33 @@ export default function Settings() {
 
         {/* Action List */}
         <View className="gap-y-3">
+          {/* Update Details */}
+          <TouchableOpacity
+            onPress={() => router.push("/update-details")}
+            className="bg-white dark:bg-gray-800 rounded-2xl px-5 py-4 flex-row items-center justify-between border border-gray-200 dark:border-gray-700 active:bg-gray-50 dark:active:bg-gray-700"
+            style={{
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.05,
+              shadowRadius: 3,
+              elevation: 2,
+            }}
+          >
+            <View className="flex-row items-center flex-1">
+              <View className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900 rounded-xl items-center justify-center mr-3">
+                <MaterialIcons name="person" size={18} color="#4F46E5" />
+              </View>
+              <View>
+                <Text className="text-base font-semibold text-gray-900 dark:text-white">
+                  Update Details
+                </Text>
+                <Text className="text-xs text-gray-500 dark:text-gray-400">
+                  Update your profile details
+                </Text>
+              </View>
+            </View>
+            <MaterialIcons name="chevron-right" size={20} color="#9CA3AF" />
+          </TouchableOpacity>
           {/* Change Password */}
           <TouchableOpacity
             onPress={handleChangePassword}

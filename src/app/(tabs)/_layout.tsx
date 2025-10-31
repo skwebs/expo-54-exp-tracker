@@ -50,6 +50,16 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="change-password"
+        options={{
+          title: "Change Password",
+          href: null,
+          tabBarIcon: ({ color }) => (
+            <FontAwesome6 name="gear" size={28} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

@@ -108,7 +108,7 @@ export default function Settings() {
           </View>
 
           {/* User Info */}
-          <View className="space-y-4">
+          <View className="gap-y-4">
             <View className="flex-row items-center">
               <Ionicons
                 name="person"

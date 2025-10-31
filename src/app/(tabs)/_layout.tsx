@@ -13,6 +13,7 @@ export default function TabLayout() {
         headerShown: false,
         // tabBarButton: HapticTab,
       }}
+      backBehavior="order"
     >
       <Tabs.Screen
         name="index"

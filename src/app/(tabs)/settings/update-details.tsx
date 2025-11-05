@@ -92,7 +92,7 @@ export default function UpdateDetailsScreen(): JSX.Element {
       // added delay to navigate to settings for showing toast
       setTimeout(() => {
         router.push(`/settings`);
-      }, 500);
+      }, 10);
     } catch (error) {
       if (isAxiosError(error)) {
         const status = error.response?.status;
@@ -284,8 +284,8 @@ export default function UpdateDetailsScreen(): JSX.Element {
                 text2: "Your changes will be lost.",
               });
             }
-            router.push(`/settings`);
-            // router.back();
+            // router.push(`/settings`);
+            router.back();
           }}
           activeOpacity={0.8}
         >

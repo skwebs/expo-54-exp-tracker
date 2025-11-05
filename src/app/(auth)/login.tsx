@@ -753,7 +753,7 @@ export default function SignInScreen() {
       <View className="w-full items-end mb-4">
         <TouchableOpacity
           onPress={() => {
-            router.push("/reset-password");
+            router.push("/forgot-password");
             clearErrors();
             reset();
             setServerError({});

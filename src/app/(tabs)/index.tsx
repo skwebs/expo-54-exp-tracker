@@ -295,7 +295,14 @@ function AccordionItem({
             </Text>
           </View>
           <View className="flex-row items-center gap-2">
-            <Text className="text-gray-800 font-medium">$20000.00</Text>
+            <Text className="text-gray-800 font-medium">
+              <FontAwesome6
+                name="indian-rupee-sign"
+                size={14}
+                color="#1F2937"
+              />
+              20000.00
+            </Text>
             <Ionicons
               name={isExpandedUI ? "chevron-up" : "chevron-down"}
               size={24}
@@ -351,7 +358,7 @@ function AccordionItem({
 }
 
 export default function Index() {
-  const expanded = useSharedValue<number | null>(null);
+  const expanded = useSharedValue<number | null>(4);
 
   const toggleAccordion = (id: number) => {
     expanded.value = expanded.value === id ? null : id;

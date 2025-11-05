@@ -52,7 +52,7 @@ export default function Settings() {
   const router = useRouter();
 
   const handleChangePassword = () => {
-    router.push("../change-password"); // or "change-password" if inside (tabs) with href: null
+    router.push("/settings/change-password"); // or "change-password" if inside (tabs) with href: null
   };
 
   const handleLogout = () => {
@@ -149,7 +149,7 @@ export default function Settings() {
         <View className="gap-y-3">
           {/* Update Details */}
           <TouchableOpacity
-            onPress={() => router.push("/update-details")}
+            onPress={() => router.push("/settings/update-details")}
             className="bg-white dark:bg-gray-800 rounded-2xl px-5 py-4 flex-row items-center justify-between border border-gray-200 dark:border-gray-700 active:bg-gray-50 dark:active:bg-gray-700"
             style={{
               shadowColor: "#000",

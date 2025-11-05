@@ -87,7 +87,7 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <Stack>
           {/* Public Screens */}
-          <Stack.Protected guard={!isAuthenticated}>
+          {/* <Stack.Protected guard={!isAuthenticated}>
             <Stack.Screen
               name="login"
               options={{ headerShown: false, animation: "fade" }}
@@ -104,12 +104,15 @@ export default function RootLayout() {
               name="verify-otp-reset-password"
               options={{ headerShown: false, animation: "fade" }}
             />
+          </Stack.Protected> */}
+
+          {/* Public Screens */}
+          <Stack.Protected guard={!isAuthenticated}>
             <Stack.Screen
-              name="change-password"
+              name="(auth)"
               options={{ headerShown: false, animation: "fade" }}
             />
           </Stack.Protected>
-
           {/* Private Screens */}
           <Stack.Protected guard={isAuthenticated}>
             <Stack.Screen

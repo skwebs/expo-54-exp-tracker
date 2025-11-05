@@ -51,20 +51,6 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="change-password"
-        options={{
-          title: "Change Password",
-          href: null,
-        }}
-      />
-      <Tabs.Screen
-        name="update-details"
-        options={{
-          title: "Update Details",
-          href: null,
-        }}
-      />
     </Tabs>
   );
 }

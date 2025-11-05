@@ -1,0 +1,52 @@
+android {
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.yourcompany.yourapp"
+        minSdkVersion 21
+        targetSdkVersion 34
+        versionCode 1
+        versionName "1.0.0"
+        // … any other defaultConfig entries
+    }
+
+    // ──────────────────────────────────────────────────────
+    //  <<<  ABI SPLITS  >>>
+    // ──────────────────────────────────────────────────────
+    splits {
+        abi {
+            enable true
+            reset()
+            // Keep only the architectures you need.
+            // Most modern phones are arm64-v8a, old ones armeabi-v7a.
+            include 'armeabi-v7a', 'arm64-v8a'   // <-- remove x86/x86_64 if you don’t need them
+            universalApk false   // set true if you also want a fat APK
+        }
+    }
+
+    // Give every ABI its own unique versionCode (required by Play Store)
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def abi = output.getFilter(com.android.build.OutputFile.ABI)
+            if (abi != null) {
+                def base = variant.versionCode
+                def abiCode = 0
+                if (abi == "armeabi-v7a") abiCode = 1
+                else if (abi == "arm64-v8a") abiCode = 2
+                else if (abi == "x86")      abiCode = 3
+                else if (abi == "x86_64")   abiCode = 4
+                output.versionCodeOverride = base * 10 + abiCode
+            }
+        }
+    }
+    // ──────────────────────────────────────────────────────
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    // … other android blocks (bundle, lintOptions, etc.)
+}

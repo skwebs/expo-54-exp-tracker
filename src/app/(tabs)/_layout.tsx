@@ -10,7 +10,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "teal",
-        headerShown: false,
+        // headerShown: false,
         // tabBarButton: HapticTab,
       }}
       backBehavior="order"
@@ -18,9 +18,18 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Dashboard",
           tabBarIcon: ({ color }) => (
             <AntDesign name="dashboard" size={28} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="accounts"
+        options={{
+          title: "Accounts",
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="person" size={28} color={color} />
           ),
         }}
       />
@@ -34,9 +43,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="transaction"
+        name="transactions"
         options={{
-          title: "Transaction",
+          title: "Transactions",
           tabBarIcon: ({ color }) => (
             <Octicons name="arrow-switch" size={28} color={color} />
           ),

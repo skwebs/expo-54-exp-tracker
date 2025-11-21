@@ -1,6 +1,5 @@
 android {
     compileSdk 34
-
     defaultConfig {
         applicationId "com.yourcompany.yourapp"
         minSdkVersion 21
@@ -50,3 +49,14 @@ android {
     }
     // … other android blocks (bundle, lintOptions, etc.)
 }
+|***************************
+|   Default scripts
+|***************************
+ "scripts": {
+    "start": "expo start",
+    "reset-project": "node ./scripts/reset-project.js",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "lint": "expo lint"
+  },

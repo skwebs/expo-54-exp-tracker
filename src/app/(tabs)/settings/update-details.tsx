@@ -66,17 +66,13 @@ export default function UpdateDetailsScreen(): JSX.Element {
     setLoading(true);
 
     try {
-      const { data: res } = await axios.post(
-        `${API_URL}/update-profile`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            // Add your auth token here
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const { data: res } = await axios.put(`${API_URL}/update-profile`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          // Add your auth token here
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       // Update user in auth store
       if (res.user) {

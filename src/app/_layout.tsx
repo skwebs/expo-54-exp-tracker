@@ -42,11 +42,13 @@
 //     </SafeAreaProvider>
 //   );
 // }
+import { ANDROID_ID } from "@/Constants";
 import { useAuthStore } from "@/store/authStore";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
+import { Text } from "react-native";
 import "react-native-reanimated";
 import {
   SafeAreaProvider,
@@ -54,7 +56,6 @@ import {
 } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import "./../global.css";
-
 // Optional: React Query Devtools (for debugging)
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -87,26 +88,6 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <Stack>
           {/* Public Screens */}
-          {/* <Stack.Protected guard={!isAuthenticated}>
-            <Stack.Screen
-              name="login"
-              options={{ headerShown: false, animation: "fade" }}
-            />
-            <Stack.Screen
-              name="register"
-              options={{ headerShown: false, animation: "fade" }}
-            />
-            <Stack.Screen
-              name="send-reset-password-otp"
-              options={{ headerShown: false, animation: "fade" }}
-            />
-            <Stack.Screen
-              name="verify-otp-reset-password"
-              options={{ headerShown: false, animation: "fade" }}
-            />
-          </Stack.Protected> */}
-
-          {/* Public Screens */}
           <Stack.Protected guard={!isAuthenticated}>
             <Stack.Screen
               name="(auth)"
@@ -125,6 +106,11 @@ export default function RootLayout() {
         <StatusBar style="auto" />
         <Toast />
 
+        {ANDROID_ID && (
+          <Text className="text-sm text-gray-500 dark:teTextray-400 text-center">
+            Android ID: {ANDROID_ID}
+          </Text>
+        )}
         {/* Uncomment in dev mode */}
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>

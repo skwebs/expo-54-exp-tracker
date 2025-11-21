@@ -1,6 +1,6 @@
 import { API_URL } from "@/Constants";
 import { useAuthStore } from "@/store/authStore";
-import { Ionicons } from "@expo/vector-icons"; // ← Expo Vector Icon
+import Ionicons from "@expo/vector-icons/Ionicons"; // ← Expo Vector Icon
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { isAxiosError } from "axios";
 import { useRouter } from "expo-router";

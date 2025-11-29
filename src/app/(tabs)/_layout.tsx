@@ -12,6 +12,9 @@ export default function TabLayout() {
         tabBarActiveTintColor: "teal",
         // headerShown: false,
         // tabBarButton: HapticTab,
+        tabBarStyle: {
+          height: 56, // Increase tab bar height if padding pushes label upward
+        },
       }}
       backBehavior="order"
     >

@@ -1,7 +1,6 @@
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import React from "react";
 import { FlatList, ScrollView, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const transactions = [
   { id: "1", amount: 50.0, date: "2025-09-20", description: "Coffee Shop" },
@@ -88,8 +87,8 @@ const renderTransaction = ({ item }: { item: (typeof transactions)[0] }) => (
 
 const Customer = () => {
   return (
-    <SafeAreaView className="flex-1 ">
-      <Text>Customer</Text>
+    <View className="flex-1">
+      <Text className="p-2 bg-gray-200">Customer</Text>
       <View className="flex-1 min-h-48">
         <FlatList
           className="flex-1"
@@ -145,7 +144,7 @@ const Customer = () => {
         <Text>Transactions</Text>
         <Text>Transactions</Text>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

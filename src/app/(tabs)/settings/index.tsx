@@ -1,18 +1,17 @@
 import { ANDROID_ID } from "@/Constants";
+import imagePath from "@/constants/imagePath";
 import { useAuthStore } from "@/store/authStore";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import * as Clipboard from "expo-clipboard";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import React from "react";
-import {
-  Alert,
-  Pressable,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Alert, Pressable, ScrollView, Text, View } from "react-native";
+import Toast from "react-native-toast-message";
+
+const blurhash =
+  "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
 export default function Settings() {
   const { user, logout } = useAuthStore();
@@ -37,6 +36,16 @@ export default function Settings() {
     );
   };
 
+  const copyAppIdToClipboard = async () => {
+    await Clipboard.setStringAsync(ANDROID_ID!);
+    Toast.show({
+      position: "bottom",
+      type: "success",
+      text1: "App ID Copied",
+      text2: `App ID: ${ANDROID_ID}`,
+    });
+  };
+
   return (
     <ScrollView
       className="flex-1 bg-gray-50 dark:bg-gray-900"
@@ -55,12 +64,12 @@ export default function Settings() {
 
         {/* Profile Card */}
 
-        <View className="mb-8 p-6 flex-row gap-x-4 items-center border border-gray-200 rounded-xl bg-white shadow-md dark:bg-gray-800">
+        {/* <View className="mb-8 p-6 flex-row gap-x-4 items-center border border-gray-200 rounded-xl bg-white shadow-md dark:bg-gray-800">
           <View className="bg-gradient-to-tr from-indigo-100 to-indigo-300 dark:from-indigo-900 dark:to-indigo-700 min-w-14 min-h-14 rounded-full overflow-hidden flex items-center justify-center shadow">
             <Image
-              source={{
-                uri: "https://v1.anshumemorial.in/assets/static/img/ama/ama-128x128.png",
-              }}
+              source={imagePath.ama_logo}
+              placeholder={{ blurhash }}
+              transition={1000} // duration for crossfade effect in ms
               className="w-full h-full"
               style={{ width: 56, height: 56 }}
               contentFit="cover"
@@ -82,9 +91,8 @@ export default function Settings() {
           >
             <MaterialCommunityIcons name="pencil" size={22} color="#4F46E5" />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
-        {/* Security Section */}
         <View className="mb-4">
           <Text className="pb-2 ml-1 text-xs uppercase text-gray-400 tracking-widest dark:text-gray-500">
             Profile
@@ -105,9 +113,9 @@ export default function Settings() {
           >
             <View className="bg-gradient-to-tr from-indigo-100 to-indigo-300 dark:from-indigo-900 dark:to-indigo-700 min-w-14 min-h-14 rounded-full overflow-hidden flex items-center justify-center shadow">
               <Image
-                source={{
-                  uri: "https://v1.anshumemorial.in/assets/static/img/ama/ama-128x128.png",
-                }}
+                source={imagePath.ama_logo}
+                placeholder={{ blurhash }}
+                transition={1000} // duration for crossfade effect in ms
                 className="w-full h-full"
                 style={{ width: 56, height: 56 }}
                 contentFit="cover"
@@ -187,9 +195,11 @@ export default function Settings() {
           <Text className="text-xs text-gray-400 dark:text-gray-500">
             App Version 1.0.0
           </Text>
-          <Text className="text-xs text-gray-400 dark:text-gray-500">
-            App ID : {ANDROID_ID}
-          </Text>
+          <Pressable onPress={copyAppIdToClipboard}>
+            <Text className="text-xs text-gray-400 dark:text-gray-500">
+              App ID : {ANDROID_ID}
+            </Text>
+          </Pressable>
           <Text className="text-xs text-gray-400 dark:text-gray-500 mt-1">
             © 2025 My Wallet. All rights reserved.
           </Text>

@@ -22,8 +22,6 @@ import Animated, {
 } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
 
-import { SafeAreaView } from "react-native-safe-area-context";
-
 // Type definitions for nested data
 interface BankAccount {
   title: string;
@@ -316,7 +314,7 @@ function AccordionItem({
           <View className="px-4 pb-4">
             {item.accounts && (
               <FlatList
-                className="max-h-80"
+                className="max-h-52"
                 data={item.accounts}
                 renderItem={renderBankAccount}
                 keyExtractor={(account) => account.title}
@@ -325,7 +323,7 @@ function AccordionItem({
             )}
             {item.cards && (
               <FlatList
-                className="max-h-80"
+                className="max-h-52"
                 data={item.cards}
                 renderItem={renderCreditCard}
                 keyExtractor={(card) => card.title}
@@ -334,7 +332,7 @@ function AccordionItem({
             )}
             {item.investments && (
               <FlatList
-                className="max-h-80"
+                className="max-h-52"
                 data={item.investments}
                 renderItem={renderInvestment}
                 keyExtractor={(investment) => investment.title}
@@ -343,7 +341,7 @@ function AccordionItem({
             )}
             {item.recents && (
               <FlatList
-                className="max-h-80"
+                className="max-h-52"
                 data={item.recents}
                 renderItem={renderInvestment}
                 keyExtractor={(investment) => investment.title}
@@ -364,8 +362,108 @@ export default function Index() {
     expanded.value = expanded.value === id ? null : id;
   };
 
+  const [expenses, setExpenses] = useState<number>(10000);
+  const [budget, setBudget] = useState<number>(15000);
+
   return (
-    <SafeAreaView className="flex-1 p-4 bg-white">
+    <View className="flex-1 p-4 bg-white">
+      {/* Budget progress card */}
+      <View className="mb-3 rounded-2xl border border-gray-200 bg-white dark:bg-neutral-900 dark:border-neutral-800 p-4">
+        {/* Header row */}
+        <View className="flex-row items-center justify-between mb-3">
+          <View>
+            <Text className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+              Monthly budget
+            </Text>
+            <Text className="text-lg font-semibold text-gray-600 dark:text-gray-50">
+              Balance
+            </Text>
+          </View>
+
+          {/* Amounts */}
+          <View className="items-end">
+            <View className="flex-row items-center">
+              <FontAwesome6
+                name="indian-rupee-sign"
+                size={14}
+                color="#dc2626"
+              />
+              <Text className="ml-1 text-base font-semibold text-red-600 dark:text-red-400">
+                {expenses.toLocaleString("en-IN")}.00
+              </Text>
+              <Text className="mx-1 text-base font-semibold text-gray-400 dark:text-gray-500">
+                /
+              </Text>
+              <Text className="text-base font-semibold text-emerald-600 dark:text-emerald-400">
+                {budget.toLocaleString("en-IN")}.00r
+              </Text>
+            </View>
+            <Text className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
+              Spent / Budget
+            </Text>
+          </View>
+        </View>
+
+        {/* Progress bar with label */}
+        <View className="mb-2">
+          <View className="relative h-3 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-neutral-800">
+            <View className="h-3 w-2/3 rounded-full bg-red-600 dark:bg-gray-400" />
+          </View>
+          <View className="mt-1 flex-row justify-between">
+            <Text className="text-xs font-medium text-red-500 dark:text-gray-400">
+              {Math.round((100 * expenses) / budget)}% of budget used
+            </Text>
+            <Text className="text-xs  text-emerald-600 font-semibold dark:text-gray-400">
+              {Math.round((100 * (budget - expenses)) / budget)}% Remaining
+            </Text>
+          </View>
+        </View>
+
+        {/* Stats row */}
+        <View className="mt-1 flex-row justify-between">
+          <View>
+            <Text className="text-[11px] text-gray-500 dark:text-gray-400">
+              Remaining
+            </Text>
+            <View className="flex-row items-center">
+              <FontAwesome6
+                name="indian-rupee-sign"
+                size={11}
+                color="#16a34a"
+              />
+              <Text className="ml-1 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+                {(budget - expenses).toLocaleString("en-IN")}.00
+              </Text>
+            </View>
+          </View>
+
+          <View>
+            <Text className="text-[11px] text-gray-500 dark:text-gray-400">
+              Days left
+            </Text>
+            <Text className="text-sm font-semibold text-gray-900 dark:text-gray-50">
+              12
+            </Text>
+          </View>
+
+          <View className="items-end">
+            <Text className="text-[11px] text-gray-500 dark:text-gray-400">
+              Daily safe spend
+            </Text>
+            <View className="flex-row items-center">
+              <FontAwesome6
+                name="indian-rupee-sign"
+                size={11}
+                color="#06b6d4"
+              />
+              <Text className="ml-1 text-sm font-semibold text-cyan-600 dark:text-cyan-400">
+                {Math.round(budget / 30).toLocaleString("en-IN")} per day
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+
       <View className="gap-y-4 mb-8">
         {data.map((item) => (
           <AccordionItem
@@ -376,6 +474,6 @@ export default function Index() {
           />
         ))}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

@@ -1,77 +1,22 @@
+// src/app/(tabs)/customer.tsx
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import React from "react";
-import { FlatList, ScrollView, Text, View } from "react-native";
+import React, { useState } from "react";
+import {
+  FlatList,
+  ListRenderItemInfo,
+  Pressable,
+  Text,
+  View,
+} from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-const transactions = [
-  { id: "1", amount: 50.0, date: "2025-09-20", description: "Coffee Shop" },
-  { id: "2", amount: 120.5, date: "2025-09-19", description: "Grocery Store" },
-  { id: "3", amount: 15.0, date: "2025-09-18", description: "Bus Fare" },
-  {
-    id: "4",
-    amount: 200.0,
-    date: "2025-09-17",
-    description: "Online Purchase",
-  },
-  { id: "5", amount: 30.0, date: "2025-09-16", description: "Restaurant" },
-  { id: "6", amount: 75.0, date: "2025-09-15", description: "Gas Station" },
-  { id: "7", amount: 45.0, date: "2025-09-14", description: "Bookstore" },
-  {
-    id: "8",
-    amount: 310.0,
-    date: "2025-09-13",
-    description: "Electronics Store",
-  },
-  { id: "9", amount: 22.5, date: "2025-09-12", description: "Fast Food" },
-  { id: "10", amount: 90.0, date: "2025-09-11", description: "Pharmacy" },
-  {
-    id: "11",
-    amount: 175.0,
-    date: "2025-09-10",
-    description: "Clothing Store",
-  },
-  { id: "12", amount: 12.0, date: "2025-09-09", description: "Metro Tickets" },
-  { id: "13", amount: 60.0, date: "2025-09-08", description: "Supermarket" },
-  {
-    id: "14",
-    amount: 250.0,
-    date: "2025-09-07",
-    description: "Furniture Shop",
-  },
-  { id: "15", amount: 40.0, date: "2025-09-06", description: "Cinema" },
-  { id: "16", amount: 95.0, date: "2025-09-05", description: "Pet Store" },
-  { id: "17", amount: 33.0, date: "2025-09-04", description: "Bakery" },
-  {
-    id: "18",
-    amount: 520.0,
-    date: "2025-09-03",
-    description: "Airline Ticket",
-  },
-  { id: "19", amount: 28.0, date: "2025-09-02", description: "Laundry" },
-  {
-    id: "20",
-    amount: 110.0,
-    date: "2025-09-01",
-    description: "Sports Equipment",
-  },
-  { id: "21", amount: 85.0, date: "2025-08-31", description: "Spa" },
-  { id: "22", amount: 300.0, date: "2025-08-30", description: "Hotel Booking" },
-  {
-    id: "23",
-    amount: 10.0,
-    date: "2025-08-29",
-    description: "Newspaper Stand",
-  },
-  {
-    id: "24",
-    amount: 130.0,
-    date: "2025-08-28",
-    description: "Hardware Store",
-  },
-  { id: "25", amount: 48.0, date: "2025-08-27", description: "Ice Cream Shop" },
-];
+import AppBottomSheetModal from "@/components/AppBottomSheetModal"; // adjust path
+import { dummyTransactions } from "@/data/dummyTransactions";
 
-const renderTransaction = ({ item }: { item: (typeof transactions)[0] }) => (
-  <View className="flex-row justify-between py-3 px-4 border-b border-gray-200 last:border-b-0">
+const renderTransaction = ({
+  item,
+}: ListRenderItemInfo<(typeof dummyTransactions)[0]>) => (
+  <View className="flex-row justify-between py-3 px-4 border-b border-gray-200">
     <View className="flex-1">
       <Text className="text-gray-800 font-medium">{item.description}</Text>
       <Text className="text-gray-500 text-sm">{item.date}</Text>
@@ -86,65 +31,63 @@ const renderTransaction = ({ item }: { item: (typeof transactions)[0] }) => (
 );
 
 const Customer = () => {
+  const [visible, setVisible] = useState(false);
+
   return (
-    <View className="flex-1">
-      <Text className="p-2 bg-gray-200">Customer</Text>
-      <View className="flex-1 min-h-48">
+    // ✅ Ideally have GestureHandlerRootView once in App.tsx, but this works for demo
+    <>
+      <GestureHandlerRootView
+        style={{ flex: 1, position: "relative", backgroundColor: "#fff" }}
+      >
         <FlatList
-          className="flex-1"
-          data={transactions.slice(0, 14)}
-          renderItem={renderTransaction}
+          // ListHeaderComponent={<Text>List of Customers</Text>}
+          // stickyHeaderHiddenOnScroll={true}
+          // stickyHeaderIndices={[0]}
+          showsVerticalScrollIndicator={false}
+          data={dummyTransactions}
           keyExtractor={(item) => item.id}
+          renderItem={renderTransaction}
+          contentContainerStyle={{ paddingBottom: 100 }}
         />
-      </View>
-      <ScrollView className="flex-1">
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-        <Text>Transactions</Text>
-      </ScrollView>
-    </View>
+        <View className="flex-1 ">
+          <Text className="text-2xl font-semibold text-gray-800">
+            Customer Screen
+          </Text>
+        </View>
+
+        <Pressable
+          onPress={() => setVisible(true)}
+          className="absolute bottom-6 right-6 z-10"
+        >
+          <View className="size-16 items-center justify-center bg-green-700/90 rounded-full">
+            <FontAwesome6 name="plus" size={20} color="#fff" />
+          </View>
+        </Pressable>
+
+        <AppBottomSheetModal
+          visible={visible}
+          onClose={() => setVisible(false)}
+          title="Transactions"
+          height="half" // "auto" | "half" | "full"
+          onConfirm={() => {
+            // Your save/apply logic here
+            setVisible(false);
+          }}
+          contentClassName="px-2 "
+        >
+          <FlatList
+            data={dummyTransactions}
+            keyExtractor={(item) => item.id}
+            renderItem={renderTransaction}
+            style={{ flex: 1 }}
+            initialNumToRender={8}
+            maxToRenderPerBatch={8}
+            windowSize={5}
+            removeClippedSubviews
+          />
+        </AppBottomSheetModal>
+      </GestureHandlerRootView>
+    </>
   );
 };
 

@@ -474,6 +474,18 @@ export default function Index() {
           />
         ))}
       </View>
+      {/* <Modal
+        animationType="slide"
+        transparent={true}
+        visible={true}
+        onRequestClose={() => {}}
+      >
+        <View className="flex-1 bg-gray-50">
+          <View className="flex-1">
+            <Text className="p-2 bg-gray-200">Customer</Text>
+          </View>
+        </View>
+      </Modal> */}
     </View>
   );
 }

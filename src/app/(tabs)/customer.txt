@@ -1,0 +1,207 @@
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import React, { useState } from "react";
+import { Button, FlatList, Pressable, Text, View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import type {
+  ModalAnimationConfig,
+  ModalSwipeConfig,
+} from "react-native-reanimated-modal";
+import { Modal } from "react-native-reanimated-modal";
+
+// Scale animation with custom settings
+const scaleConfig: ModalAnimationConfig<"scale"> = {
+  type: "scale",
+  duration: 400,
+  scaleFactor: 0.8, // Start from 80% size
+};
+
+// Fade animation
+const fadeConfig: ModalAnimationConfig<"fade"> = {
+  type: "fade",
+  duration: 300,
+};
+
+// Slide animation with complex directions
+const slideConfig: ModalAnimationConfig<"slide"> = {
+  type: "slide",
+  duration: 300,
+  direction: {
+    start: "down", // Slides in from bottom
+    end: ["down", "left"], // Can dismiss by swiping down or right
+  },
+};
+
+// Simple slide animation
+const simpleSlideConfig: ModalAnimationConfig<"slide"> = {
+  type: "slide",
+  duration: 400,
+  direction: "up", // Both slide-in and dismiss direction
+};
+// Basic swipe config
+const basicSwipe: ModalSwipeConfig = {
+  enabled: true,
+  directions: ["down", "left", "right"], // Allow swiping in these directions
+  threshold: 120,
+};
+
+// Advanced swipe config with custom bounce
+const advancedSwipe: ModalSwipeConfig = {
+  enabled: true,
+  directions: ["right", "down"], // Only down swipes
+  threshold: 80,
+  bounceSpringConfig: {
+    dampingRatio: 0.7,
+    duration: 400,
+  },
+  bounceOpacityThreshold: 0.1,
+};
+
+// Disabled swipe
+const noSwipe: ModalSwipeConfig = {
+  enabled: false,
+};
+
+const transactions = [
+  { id: "1", amount: 50.0, date: "2025-09-20", description: "Coffee Shop" },
+  { id: "2", amount: 120.5, date: "2025-09-19", description: "Grocery Store" },
+  { id: "3", amount: 15.0, date: "2025-09-18", description: "Bus Fare" },
+  {
+    id: "4",
+    amount: 200.0,
+    date: "2025-09-17",
+    description: "Online Purchase",
+  },
+  { id: "5", amount: 30.0, date: "2025-09-16", description: "Restaurant" },
+  { id: "6", amount: 75.0, date: "2025-09-15", description: "Gas Station" },
+  { id: "7", amount: 45.0, date: "2025-09-14", description: "Bookstore" },
+  {
+    id: "8",
+    amount: 310.0,
+    date: "2025-09-13",
+    description: "Electronics Store",
+  },
+  { id: "9", amount: 22.5, date: "2025-09-12", description: "Fast Food" },
+  { id: "10", amount: 90.0, date: "2025-09-11", description: "Pharmacy" },
+  {
+    id: "11",
+    amount: 175.0,
+    date: "2025-09-10",
+    description: "Clothing Store",
+  },
+  { id: "12", amount: 12.0, date: "2025-09-09", description: "Metro Tickets" },
+  { id: "13", amount: 60.0, date: "2025-09-08", description: "Supermarket" },
+  {
+    id: "14",
+    amount: 250.0,
+    date: "2025-09-07",
+    description: "Furniture Shop",
+  },
+  { id: "15", amount: 40.0, date: "2025-09-06", description: "Cinema" },
+  { id: "16", amount: 95.0, date: "2025-09-05", description: "Pet Store" },
+  { id: "17", amount: 33.0, date: "2025-09-04", description: "Bakery" },
+  {
+    id: "18",
+    amount: 520.0,
+    date: "2025-09-03",
+    description: "Airline Ticket",
+  },
+  { id: "19", amount: 28.0, date: "2025-09-02", description: "Laundry" },
+  {
+    id: "20",
+    amount: 110.0,
+    date: "2025-09-01",
+    description: "Sports Equipment",
+  },
+  { id: "21", amount: 85.0, date: "2025-08-31", description: "Spa" },
+  { id: "22", amount: 300.0, date: "2025-08-30", description: "Hotel Booking" },
+  {
+    id: "23",
+    amount: 10.0,
+    date: "2025-08-29",
+    description: "Newspaper Stand",
+  },
+  {
+    id: "24",
+    amount: 130.0,
+    date: "2025-08-28",
+    description: "Hardware Store",
+  },
+  { id: "25", amount: 48.0, date: "2025-08-27", description: "Ice Cream Shop" },
+];
+
+const renderTransaction = ({ item }: { item: (typeof transactions)[0] }) => (
+  <View className="flex-row justify-between py-3 px-4 border-b border-gray-200 last:border-b-0">
+    <View className="flex-1">
+      <Text className="text-gray-800 font-medium">{item.description}</Text>
+      <Text className="text-gray-500 text-sm">{item.date}</Text>
+    </View>
+    <View className="flex-row items-center">
+      <FontAwesome6 name="indian-rupee-sign" size={16} color="#1F2937" />
+      <Text className="text-gray-800 font-medium ml-2">
+        {item.amount.toFixed(2)}
+      </Text>
+    </View>
+  </View>
+);
+
+const Customer = () => {
+  const [visible, setVisible] = useState(false);
+  return (
+    <View className="flex-1">
+      <GestureHandlerRootView>
+        <Button title="Show Modal" onPress={() => setVisible(true)} />
+        <Modal
+          visible={visible}
+          backdrop={{ enabled: true }}
+          statusBarTranslucent
+          navigationBarTranslucent
+          contentContainerStyle={{
+            flex: 1,
+            // justifyContent: "flex-end",
+          }}
+          onHide={() => setVisible(false)}
+          animation={slideConfig}
+          swipe={advancedSwipe}
+        >
+          <Pressable
+            className="flex-1 flex justify-end"
+            onPress={() => setVisible(false)}
+          >
+            <Pressable className="bg-white h-1/2 relative">
+              <View className="flex flex-row justify-between items-center p-4">
+                <Pressable onPress={() => setVisible(false)}>
+                  <Ionicons name="close-outline" size={32} color="black" />
+                  {/* <FontAwesome6 name="xmark" size={24} color="#888" /> */}
+                </Pressable>
+                <Text className="text-2xl font-semibold">Modal</Text>
+                <Pressable onPress={() => setVisible(false)}>
+                  {/* tick mark icon */}
+                  {/* <FontAwesome6 name="check" size={24} color="#888" /> */}
+                  <Ionicons name="checkmark-outline" size={32} color="black" />
+                </Pressable>
+              </View>
+
+              {/* modal content start */}
+              <View className="p-5">
+                <Text>Hello from Modal!</Text>
+                <FlatList
+                  data={transactions}
+                  keyExtractor={(item) => item.id}
+                  renderItem={renderTransaction}
+                  initialNumToRender={8}
+                  maxToRenderPerBatch={8}
+                  windowSize={5}
+                  removeClippedSubviews
+                />
+              </View>
+              {/* modal content end */}
+            </Pressable>
+          </Pressable>
+        </Modal>
+      </GestureHandlerRootView>
+    </View>
+  );
+};
+
+export default Customer;

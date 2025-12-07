@@ -47,6 +47,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
+import { useColorScheme } from "react-native";
 import "react-native-reanimated";
 import {
   SafeAreaProvider,
@@ -56,13 +57,18 @@ import Toast from "react-native-toast-message";
 import "./../global.css";
 // Optional: React Query Devtools (for debugging)
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
 export const unstable_settings = {
   anchor: "(tabs)",
 };
 
 export default function RootLayout() {
   const { isAuthenticated } = useAuthStore();
+  const colorScheme = useColorScheme();
 
   // ✅ Ensure QueryClient is created only once
   const [queryClient] = useState(
@@ -83,35 +89,37 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       {/* ✅ Provide React Query globally */}
-      <QueryClientProvider client={queryClient}>
-        <Stack>
-          {/* Public Screens */}
-          <Stack.Protected guard={!isAuthenticated}>
-            <Stack.Screen
-              name="(auth)"
-              options={{ headerShown: false, animation: "fade" }}
-            />
-          </Stack.Protected>
-          {/* Private Screens */}
-          <Stack.Protected guard={isAuthenticated}>
-            <Stack.Screen
-              name="(tabs)"
-              options={{ headerShown: false, animation: "fade" }}
-            />
-          </Stack.Protected>
-        </Stack>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <QueryClientProvider client={queryClient}>
+          <Stack>
+            {/* Public Screens */}
+            <Stack.Protected guard={!isAuthenticated}>
+              <Stack.Screen
+                name="(auth)"
+                options={{ headerShown: false, animation: "fade" }}
+              />
+            </Stack.Protected>
+            {/* Private Screens */}
+            <Stack.Protected guard={isAuthenticated}>
+              <Stack.Screen
+                name="(tabs)"
+                options={{ headerShown: false, animation: "fade" }}
+              />
+            </Stack.Protected>
+          </Stack>
 
-        <StatusBar style="auto" />
-        <Toast />
+          <StatusBar style="auto" />
+          <Toast />
 
-        {/* {ANDROID_ID && (
+          {/* {ANDROID_ID && (
           <Text className="text-sm text-gray-500 dark:teTextray-400 text-center">
             Android ID: {ANDROID_ID}
           </Text>
         )} */}
-        {/* Uncomment in dev mode */}
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-      </QueryClientProvider>
+          {/* Uncomment in dev mode */}
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        </QueryClientProvider>
+      </ThemeProvider>
     </SafeAreaProvider>
   );
 }

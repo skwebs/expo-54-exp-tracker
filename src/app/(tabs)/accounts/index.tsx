@@ -188,7 +188,7 @@ function AddAccountModal({ visible, onClose, onSubmit }: AddAccountModalProps) {
 export default function Account() {
   const [accountData, setAccountData] = useState<AccountType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const { token, user } = useAuthStore();
+  const { token, user, logout } = useAuthStore();
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
@@ -208,6 +208,9 @@ export default function Account() {
       console.log("Token:", token);
     } catch (error) {
       if (isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          logout();
+        }
         console.log(error.response?.status, error.response?.data);
       }
     } finally {

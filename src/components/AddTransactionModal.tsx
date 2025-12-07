@@ -82,9 +82,11 @@ export default function AddTransactionModal({
 
   return (
     <Modal
-      visible={visible}
-      transparent
       animationType="fade"
+      statusBarTranslucent
+      navigationBarTranslucent
+      backdropColor={"rgba(0,0,0,0.5)"}
+      visible={visible}
       onRequestClose={handleClose}
     >
       <KeyboardAvoidingView
@@ -207,7 +209,7 @@ export default function AddTransactionModal({
                         Description
                       </Text>
                       <TextInput
-                        value={description}    
+                        value={description}
                         onChangeText={setDescription}
                         placeholder="Optional details"
                         placeholderTextColor="#9ca3af"

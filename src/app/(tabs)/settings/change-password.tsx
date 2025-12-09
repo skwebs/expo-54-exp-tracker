@@ -27,7 +27,7 @@ const changePasswordSchema = z
       .min(8, "Password must be at least 8 characters")
       .regex(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-        "Password must contain uppercase, lowercase, and number"
+        "Password must contain uppercase, lowercase, and number",
       ),
     new_password_confirmation: z.string(),
   })
@@ -80,7 +80,7 @@ export default function ChangePasswordScreen(): JSX.Element {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       Toast.show({
@@ -137,7 +137,7 @@ export default function ChangePasswordScreen(): JSX.Element {
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 justify-center items-center bg-white px-6"
+      className="flex-1 items-center justify-center bg-white px-6"
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <Text className="mb-8 text-3xl font-semibold text-gray-800">
@@ -149,10 +149,10 @@ export default function ChangePasswordScreen(): JSX.Element {
         control={control}
         name="current_password"
         render={({ field: { onChange, onBlur, value } }) => (
-          <View className="w-full mb-2">
+          <View className="mb-2 w-full">
             <View className="relative">
               <TextInput
-                className={`border rounded-lg px-4 py-3 pr-12 text-base text-gray-700 focus:border-gray-400 ${
+                className={`rounded-lg border px-4 py-3 pr-12 text-base text-gray-700 focus:border-gray-400 ${
                   errors.current_password || serverError?.current_password
                     ? "border-red-500"
                     : "border-gray-300"
@@ -179,7 +179,7 @@ export default function ChangePasswordScreen(): JSX.Element {
                 />
               </TouchableOpacity>
             </View>
-            <Text className="text-red-500 text-xs my-1">
+            <Text className="my-1 text-xs text-red-500">
               {errors.current_password?.message ||
                 serverError?.current_password?.[0] ||
                 ""}
@@ -193,10 +193,10 @@ export default function ChangePasswordScreen(): JSX.Element {
         control={control}
         name="new_password"
         render={({ field: { onChange, onBlur, value } }) => (
-          <View className="w-full mb-2">
+          <View className="mb-2 w-full">
             <View className="relative">
               <TextInput
-                className={`border rounded-lg px-4 py-3 pr-12 text-base text-gray-700 focus:border-gray-400 ${
+                className={`rounded-lg border px-4 py-3 pr-12 text-base text-gray-700 focus:border-gray-400 ${
                   errors.new_password || serverError?.new_password
                     ? "border-red-500"
                     : "border-gray-300"
@@ -223,7 +223,7 @@ export default function ChangePasswordScreen(): JSX.Element {
                 />
               </TouchableOpacity>
             </View>
-            <Text className="text-red-500 text-xs my-1">
+            <Text className="my-1 text-xs text-red-500">
               {errors.new_password?.message ||
                 serverError?.new_password?.[0] ||
                 ""}
@@ -237,10 +237,10 @@ export default function ChangePasswordScreen(): JSX.Element {
         control={control}
         name="new_password_confirmation"
         render={({ field: { onChange, onBlur, value } }) => (
-          <View className="w-full mb-2">
+          <View className="mb-2 w-full">
             <View className="relative">
               <TextInput
-                className={`border rounded-lg px-4 py-3 pr-12 text-base text-gray-700 focus:border-gray-400 ${
+                className={`rounded-lg border px-4 py-3 pr-12 text-base text-gray-700 focus:border-gray-400 ${
                   errors.new_password_confirmation ||
                   serverError?.new_password_confirmation
                     ? "border-red-500"
@@ -268,7 +268,7 @@ export default function ChangePasswordScreen(): JSX.Element {
                 />
               </TouchableOpacity>
             </View>
-            <Text className="text-red-500 text-xs my-1">
+            <Text className="my-1 text-xs text-red-500">
               {errors.new_password_confirmation?.message ||
                 serverError?.new_password_confirmation?.[0] ||
                 ""}
@@ -278,8 +278,8 @@ export default function ChangePasswordScreen(): JSX.Element {
       />
 
       {/* Password Requirements */}
-      <View className="w-full mb-4 px-2">
-        <Text className="text-xs text-gray-500 mb-1">
+      <View className="mb-4 w-full px-2">
+        <Text className="mb-1 text-xs text-gray-500">
           Password must contain:
         </Text>
         <Text className="text-xs text-gray-500">• At least 8 characters</Text>
@@ -291,7 +291,7 @@ export default function ChangePasswordScreen(): JSX.Element {
 
       {/* Submit Button */}
       <TouchableOpacity
-        className={`w-full rounded-lg px-4 py-3 items-center mb-4 ${
+        className={`mb-4 w-full items-center rounded-lg px-4 py-3 ${
           loading ? "bg-orange-300" : "bg-orange-500"
         }`}
         onPress={handleSubmit(onSubmit)}
@@ -301,7 +301,7 @@ export default function ChangePasswordScreen(): JSX.Element {
         {loading ? (
           <ActivityIndicator color="#fff" />
         ) : (
-          <Text className="text-white font-medium text-base">
+          <Text className="text-base font-medium text-white">
             Change Password
           </Text>
         )}
@@ -309,7 +309,7 @@ export default function ChangePasswordScreen(): JSX.Element {
 
       {/* Cancel Button */}
       <TouchableOpacity
-        className="w-full rounded-lg px-4 py-3 items-center border border-gray-300"
+        className="w-full items-center rounded-lg border border-gray-300 px-4 py-3"
         onPress={() => {
           clearErrors();
           reset();
@@ -318,7 +318,7 @@ export default function ChangePasswordScreen(): JSX.Element {
         }}
         activeOpacity={0.8}
       >
-        <Text className="text-gray-700 font-medium text-base">Cancel</Text>
+        <Text className="text-base font-medium text-gray-700">Cancel</Text>
       </TouchableOpacity>
 
       {/* Forgot Password Link */}

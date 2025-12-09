@@ -164,13 +164,13 @@ function AccordionItem({
 }: AccordionItemComponentProps) {
   const height = useSharedValue(0);
   const isExpandedLocal = useDerivedValue(() =>
-    expanded.value === item.id ? 1 : 0
+    expanded.value === item.id ? 1 : 0,
   );
   const derivedHeight = useDerivedValue(() =>
     withTiming(height.value * isExpandedLocal.value, {
       duration: 300,
       easing: Easing.ease,
-    })
+    }),
   );
   const bodyStyle = useAnimatedStyle(() => ({
     height: derivedHeight.value,
@@ -181,7 +181,7 @@ function AccordionItem({
     () => isExpandedLocal.value,
     (val) => {
       scheduleOnRN(setIsExpandedUI, val === 1);
-    }
+    },
   );
 
   const onLayout = (e: LayoutChangeEvent) => {
@@ -190,21 +190,21 @@ function AccordionItem({
 
   // Render Bank Account Item
   const renderBankAccount = ({ item }: { item: BankAccount }) => (
-    <View className="flex-row justify-between items-center py-3 px-4 border-b border-gray-200 last:border-b-0 bg-gray-100 rounded-lg my-1">
+    <View className="my-1 flex-row items-center justify-between rounded-lg border-b border-gray-200 bg-gray-100 px-4 py-3 last:border-b-0">
       <View className="flex-1">
-        <Text className="text-gray-800 font-semibold text-base">
+        <Text className="text-base font-semibold text-gray-800">
           {item.title}
         </Text>
-        <Text className="text-gray-500 text-sm capitalize">
+        <Text className="text-sm capitalize text-gray-500">
           {item.type} Account
         </Text>
-        <Text className="text-gray-400 text-xs mt-1">
+        <Text className="mt-1 text-xs text-gray-400">
           Last updated: {item.lastUpdated}
         </Text>
       </View>
       <View className="flex-row items-center">
         <FontAwesome6 name="indian-rupee-sign" size={16} color="#10B981" />
-        <Text className="text-green-600 font-bold text-base ml-2">
+        <Text className="ml-2 text-base font-bold text-green-600">
           {item.amount.toLocaleString("en-IN")}
         </Text>
       </View>
@@ -213,21 +213,21 @@ function AccordionItem({
 
   // Render Credit Card Item
   const renderCreditCard = ({ item }: { item: CreditCard }) => (
-    <View className="flex-row justify-between items-center py-3 px-4 border-b border-gray-200 last:border-b-0 bg-blue-50 rounded-lg my-1">
+    <View className="my-1 flex-row items-center justify-between rounded-lg border-b border-gray-200 bg-blue-50 px-4 py-3 last:border-b-0">
       <View className="flex-1">
-        <Text className="text-gray-800 font-semibold text-base">
+        <Text className="text-base font-semibold text-gray-800">
           {item.title}
         </Text>
-        <Text className="text-red-600 text-sm font-medium">
+        <Text className="text-sm font-medium text-red-600">
           Spent: ₹{item.amount.toLocaleString("en-IN")}
         </Text>
-        <Text className="text-blue-600 text-sm">Due: {item.dueDate}</Text>
-        <Text className="text-gray-500 text-sm">
+        <Text className="text-sm text-blue-600">Due: {item.dueDate}</Text>
+        <Text className="text-sm text-gray-500">
           Limit: ₹{item.limit.toLocaleString("en-IN")}
         </Text>
       </View>
       <View className="flex-row items-center">
-        <Text className="text-red-600 font-bold text-base">
+        <Text className="text-base font-bold text-red-600">
           {((item.amount / item.limit) * 100).toFixed(1)}%
         </Text>
       </View>
@@ -236,9 +236,9 @@ function AccordionItem({
 
   // Render Investment Item
   const renderInvestment = ({ item }: { item: Investment }) => (
-    <View className="flex-row justify-between items-center py-3 px-4 border-b border-gray-200 last:border-b-0 bg-gray-100 rounded-lg my-1">
+    <View className="my-1 flex-row items-center justify-between rounded-lg border-b border-gray-200 bg-gray-100 px-4 py-3 last:border-b-0">
       <View className="flex-1">
-        <Text className="text-gray-800 font-semibold text-base">
+        <Text className="text-base font-semibold text-gray-800">
           {item.title}
         </Text>
         <Text
@@ -252,11 +252,11 @@ function AccordionItem({
         >
           {item.returns || item.interest || item.status}
         </Text>
-        <Text className="text-gray-500 text-sm">{item.risk || "Active"}</Text>
+        <Text className="text-sm text-gray-500">{item.risk || "Active"}</Text>
       </View>
       <View className="flex-row items-center">
         <FontAwesome6 name="indian-rupee-sign" size={16} color="#059669" />
-        <Text className="text-green-600 font-bold text-base ml-2">
+        <Text className="ml-2 text-base font-bold text-green-600">
           {item.amount.toLocaleString("en-IN")}
         </Text>
       </View>
@@ -269,7 +269,7 @@ function AccordionItem({
   });
 
   return (
-    <View className="bg-gray-50 border border-gray-200 rounded-xl overflow-hidden">
+    <View className="overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
       <Pressable
         style={({ pressed }) => getPressableStyle(pressed)}
         onPress={() => toggle(item.id)}
@@ -288,12 +288,12 @@ function AccordionItem({
             {item.title === "Recents" && (
               <Ionicons name="time-outline" size={24} color="#1F2937" />
             )}
-            <Text className="text-xl font-semibold text-gray-800 ml-3">
+            <Text className="ml-3 text-xl font-semibold text-gray-800">
               {item.title}
             </Text>
           </View>
           <View className="flex-row items-center gap-2">
-            <Text className="text-gray-800 font-medium">
+            <Text className="font-medium text-gray-800">
               <FontAwesome6
                 name="indian-rupee-sign"
                 size={14}
@@ -310,7 +310,7 @@ function AccordionItem({
         </View>
       </Pressable>
       <Animated.View className="w-full overflow-hidden" style={bodyStyle}>
-        <View onLayout={onLayout} className="w-full absolute">
+        <View onLayout={onLayout} className="absolute w-full">
           <View className="px-4 pb-4">
             {item.accounts && (
               <FlatList
@@ -366,11 +366,11 @@ export default function Index() {
   const [budget, setBudget] = useState<number>(15000);
 
   return (
-    <View className="flex-1 p-4 bg-white">
+    <View className="flex-1 bg-white p-4">
       {/* Budget progress card */}
-      <View className="mb-3 rounded-2xl border border-gray-200 bg-white dark:bg-neutral-900 dark:border-neutral-800 p-4">
+      <View className="mb-3 rounded-2xl border border-gray-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
         {/* Header row */}
-        <View className="flex-row items-center justify-between mb-3">
+        <View className="mb-3 flex-row items-center justify-between">
           <View>
             <Text className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
               Monthly budget
@@ -413,7 +413,7 @@ export default function Index() {
             <Text className="text-xs font-medium text-red-500 dark:text-gray-400">
               {Math.round((100 * expenses) / budget)}% of budget used
             </Text>
-            <Text className="text-xs  text-emerald-600 font-semibold dark:text-gray-400">
+            <Text className="text-xs  font-semibold text-emerald-600 dark:text-gray-400">
               {Math.round((100 * (budget - expenses)) / budget)}% Remaining
             </Text>
           </View>
@@ -464,7 +464,7 @@ export default function Index() {
         </View>
       </View>
 
-      <View className="gap-y-4 mb-8">
+      <View className="mb-8 gap-y-4">
         {data.map((item) => (
           <AccordionItem
             key={item.id}

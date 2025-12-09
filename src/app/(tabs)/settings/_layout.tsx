@@ -3,10 +3,18 @@ import React from "react";
 
 export default function SettingsLayout() {
   return (
-    <Stack screenOptions={{ headerShown: false }}>
+    <Stack>
       <Stack.Screen
         name="index"
-        options={{ headerShown: false, animation: "fade" }}
+        options={{ title: "Settings", animation: "fade" }}
+      />
+      <Stack.Screen
+        name="change-password"
+        options={{ title: "Change Password" }}
+      />
+      <Stack.Screen
+        name="update-details"
+        options={{ title: "Update Details" }}
       />
     </Stack>
   );

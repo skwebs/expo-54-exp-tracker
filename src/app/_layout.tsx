@@ -83,7 +83,7 @@ export default function RootLayout() {
             retry: 0, // No retry for mutations like login/register
           },
         },
-      })
+      }),
   );
 
   return (
@@ -111,11 +111,6 @@ export default function RootLayout() {
           <StatusBar style="auto" />
           <Toast />
 
-          {/* {ANDROID_ID && (
-          <Text className="text-sm text-gray-500 dark:teTextray-400 text-center">
-            Android ID: {ANDROID_ID}
-          </Text>
-        )} */}
           {/* Uncomment in dev mode */}
           {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </QueryClientProvider>

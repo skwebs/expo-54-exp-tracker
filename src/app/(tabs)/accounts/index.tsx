@@ -54,7 +54,7 @@ function AddAccountModal({ visible, onClose, onSubmit }: AddAccountModalProps) {
     if (!allowedTypes.includes(type)) {
       Alert.alert(
         "Validation",
-        `Type must be one of: ${allowedTypes.join(", ")}`
+        `Type must be one of: ${allowedTypes.join(", ")}`,
       );
       return;
     }
@@ -62,7 +62,7 @@ function AddAccountModal({ visible, onClose, onSubmit }: AddAccountModalProps) {
     if (isNaN(billingDayNum) || billingDayNum < 1 || billingDayNum > 31) {
       Alert.alert(
         "Validation",
-        "Billing day must be a number between 1 and 31"
+        "Billing day must be a number between 1 and 31",
       );
       return;
     }
@@ -90,12 +90,12 @@ function AddAccountModal({ visible, onClose, onSubmit }: AddAccountModalProps) {
   if (!visible) return null;
 
   return (
-    <View className="flex-1 justify-center items-center bg-black/50 px-4 absolute inset-0 z-50">
+    <View className="absolute inset-0 z-50 flex-1 items-center justify-center bg-black/50 px-4">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
-        className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md"
+        className="w-full max-w-md rounded-lg bg-white p-6 dark:bg-gray-800"
       >
-        <Text className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+        <Text className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
           Add New Account
         </Text>
 
@@ -103,17 +103,17 @@ function AddAccountModal({ visible, onClose, onSubmit }: AddAccountModalProps) {
           placeholder="Account Name"
           value={name}
           onChangeText={setName}
-          className="bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-md px-3 py-2 mb-4"
+          className="mb-4 rounded-md bg-gray-100 px-3 py-2 text-gray-900 dark:bg-gray-700 dark:text-white"
         />
 
-        <View className="flex-row flex-wrap mb-4">
+        <View className="mb-4 flex-row flex-wrap">
           {allowedTypes.map((typeOption) => (
             <TouchableOpacity
               key={typeOption}
               onPress={() => setType(typeOption)}
-              className={`px-3 py-1 mr-2 mb-2 rounded-md border ${
+              className={`mb-2 mr-2 rounded-md border px-3 py-1 ${
                 type === typeOption
-                  ? "bg-green-600 border-green-600"
+                  ? "border-green-600 bg-green-600"
                   : "border-gray-300 dark:border-gray-700"
               }`}
             >
@@ -135,7 +135,7 @@ function AddAccountModal({ visible, onClose, onSubmit }: AddAccountModalProps) {
           value={billingDay}
           onChangeText={setBillingDay}
           keyboardType="number-pad"
-          className="bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-md px-3 py-2 mb-4"
+          className="mb-4 rounded-md bg-gray-100 px-3 py-2 text-gray-900 dark:bg-gray-700 dark:text-white"
           maxLength={2}
         />
 
@@ -144,20 +144,20 @@ function AddAccountModal({ visible, onClose, onSubmit }: AddAccountModalProps) {
           value={gracePeriod}
           onChangeText={setGracePeriod}
           keyboardType="number-pad"
-          className="bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-md px-3 py-2 mb-4"
+          className="mb-4 rounded-md bg-gray-100 px-3 py-2 text-gray-900 dark:bg-gray-700 dark:text-white"
           maxLength={3}
         />
 
-        <View className="flex-row items-center mb-4">
-          <Text className="text-gray-900 dark:text-white mr-4">Active</Text>
+        <View className="mb-4 flex-row items-center">
+          <Text className="mr-4 text-gray-900 dark:text-white">Active</Text>
           <TouchableOpacity onPress={() => setActive(!active)}>
             <View
-              className={`w-10 h-6 rounded-full ${
+              className={`h-6 w-10 rounded-full ${
                 active ? "bg-green-500" : "bg-gray-400"
               }`}
             >
               <View
-                className={`w-5 h-5 rounded-full bg-white mt-0.5 ml-${
+                className={`mt-0.5 h-5 w-5 rounded-full bg-white ml-${
                   active ? "5" : "0"
                 } transition`}
               ></View>
@@ -168,16 +168,16 @@ function AddAccountModal({ visible, onClose, onSubmit }: AddAccountModalProps) {
         <View className="flex-row justify-end">
           <TouchableOpacity
             onPress={onClose}
-            className="px-4 py-2 mr-4 rounded-md bg-gray-300 dark:bg-gray-700"
+            className="mr-4 rounded-md bg-gray-300 px-4 py-2 dark:bg-gray-700"
           >
             <Text className="text-gray-700 dark:text-gray-300">Cancel</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={handleCreate}
-            className="px-4 py-2 rounded-md bg-green-600"
+            className="rounded-md bg-green-600 px-4 py-2"
           >
-            <Text className="text-white font-semibold">Create</Text>
+            <Text className="font-semibold text-white">Create</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -202,7 +202,7 @@ export default function Account() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       setAccountData(res);
       console.log("Token:", token);
@@ -216,7 +216,7 @@ export default function Account() {
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, [logout, token]);
 
   useEffect(() => {
     fetchAccounts();
@@ -242,7 +242,7 @@ export default function Account() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       setModalVisible(false);
       fetchAccounts();
@@ -250,7 +250,7 @@ export default function Account() {
       if (isAxiosError(error)) {
         Alert.alert(
           "Error",
-          `Failed to create account: ${error.response?.data || error.message}`
+          `Failed to create account: ${error.response?.data || error.message}`,
         );
       } else {
         Alert.alert("Error", "An unexpected error occurred");
@@ -261,7 +261,7 @@ export default function Account() {
   };
 
   const renderAccountItem = ({ item }: { item: AccountType }) => (
-    <View className="bg-white dark:bg-gray-800 rounded-lg p-4 my-2 w-80 shadow-md">
+    <View className="my-2 w-80 rounded-lg bg-white p-4 shadow-md dark:bg-gray-800">
       <Text className="text-lg font-semibold text-gray-900 dark:text-white">
         {item.name}
       </Text>
@@ -277,7 +277,7 @@ export default function Account() {
       <Text className="text-sm text-gray-600 dark:text-gray-300">
         Active: {item.active ? "Yes" : "No"}
       </Text>
-      <Text className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+      <Text className="mt-2 text-xs text-gray-400 dark:text-gray-500">
         Created: {new Date(item.created_at).toLocaleDateString()}
       </Text>
     </View>
@@ -285,14 +285,14 @@ export default function Account() {
 
   if (loading) {
     return (
-      <View className="flex-1 bg-gray-50 dark:bg-gray-900 justify-center items-center">
+      <View className="flex-1 items-center justify-center bg-gray-50 dark:bg-gray-900">
         <Text className="text-gray-800 dark:text-white">Loading...</Text>
       </View>
     );
   }
 
   return (
-    <View className="flex-1 bg-gray-50 dark:bg-gray-900 px-4 ">
+    <View className="flex-1 bg-gray-50 px-4 dark:bg-gray-900 ">
       {/* <Text className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
         Accounts
       </Text> */}
@@ -306,7 +306,7 @@ export default function Account() {
         contentContainerStyle={{ paddingBottom: 100, paddingTop: 10 }}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
-          <Text className="text-center text-gray-800 dark:text-white mt-10">
+          <Text className="mt-10 text-center text-gray-800 dark:text-white">
             No accounts found.
           </Text>
         }
@@ -319,7 +319,7 @@ export default function Account() {
         <TouchableOpacity
           onPress={() => setModalVisible(true)}
           activeOpacity={0.8}
-          className="bg-green-600 w-16 h-16 rounded-full items-center justify-center shadow-lg"
+          className="h-16 w-16 items-center justify-center rounded-full bg-green-600 shadow-lg"
           style={{
             shadowColor: "#22c55e",
             shadowOffset: { width: 0, height: 4 },
@@ -328,7 +328,7 @@ export default function Account() {
             elevation: 8,
           }}
         >
-          <Text className="text-white text-3xl font-light">+</Text>
+          <Text className="text-3xl font-light text-white">+</Text>
         </TouchableOpacity>
       </Animated.View>
 

@@ -81,7 +81,7 @@ export default function TransactionsScreen() {
         <TouchableOpacity
           onPress={() => setModalVisible(true)}
           activeOpacity={0.8}
-          className="bg-orange-500 w-16 h-16 rounded-full items-center justify-center shadow-lg"
+          className="h-16 w-16 items-center justify-center rounded-full bg-orange-500 shadow-lg"
           style={{
             shadowColor: "#f97316",
             shadowOffset: { width: 0, height: 4 },
@@ -90,7 +90,7 @@ export default function TransactionsScreen() {
             elevation: 8,
           }}
         >
-          <Text className="text-white text-3xl font-light">+</Text>
+          <Text className="text-3xl font-light text-white">+</Text>
         </TouchableOpacity>
       </Animated.View>
 
@@ -103,64 +103,3 @@ export default function TransactionsScreen() {
     </View>
   );
 }
-
-// import TransactionList, { Transaction } from "@/components/TransactionList";
-// import { dummyTransactions } from "@/data/dummyTransactions";
-// import { useEffect, useState } from "react";
-// import { ActivityIndicator, View } from "react-native";
-// import { SafeAreaView } from "react-native-safe-area-context";
-
-// export default function TransactionsScreen() {
-//   // const router = useRouter();
-//   const [transactions, setTransactions] = useState<Transaction[]>([]);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     loadTransactions();
-//   }, []);
-
-//   async function loadTransactions() {
-//     try {
-//       setLoading(true);
-
-//       // Simulate API call delay
-//       await new Promise((resolve) => setTimeout(resolve, 1000));
-
-//       // Use dummy data for now
-//       setTransactions(dummyTransactions);
-
-//       // TODO: Replace with real API call
-//       // const response = await axiosInstance.get("/transactions");
-//       // setTransactions(response.data);
-//     } catch (error) {
-//       console.error("Error loading transactions:", error);
-//       setTransactions([]);
-//     } finally {
-//       setLoading(false);
-//     }
-//   }
-
-//   function handleTransactionPress(transaction: Transaction) {
-//     // Navigate to transaction detail or show modal
-//     console.log("Transaction pressed:", transaction);
-//     // router.push(`/transaction/${transaction.id}`);
-//   }
-
-//   if (loading) {
-//     return (
-//       <View className="flex-1 items-center justify-center bg-white dark:bg-gray-900">
-//         <ActivityIndicator size="large" color="#f97316" />
-//       </View>
-//     );
-//   }
-
-//   return (
-//     <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
-//       <TransactionList
-//         transactions={transactions}
-//         onTransactionPress={handleTransactionPress}
-//         emptyMessage="No transactions yet"
-//       />
-//     </SafeAreaView>
-//   );
-// }

@@ -12,33 +12,41 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import AppBottomSheetModal from "@/components/AppBottomSheetModal"; // adjust path
 import { dummyTransactions } from "@/data/dummyTransactions";
+import { useRouter } from "expo-router";
 
 const renderTransaction = ({
   item,
 }: ListRenderItemInfo<(typeof dummyTransactions)[0]>) => (
-  <View className="flex-row justify-between py-3 px-4 border-b border-gray-200">
+  <View className="flex-row justify-between border-b border-gray-200 px-4 py-3">
     <View className="flex-1">
-      <Text className="text-gray-800 font-medium">{item.description}</Text>
-      <Text className="text-gray-500 text-sm">{item.date}</Text>
+      <Text className="font-medium text-gray-800">{item.description}</Text>
+      <Text className="text-sm text-gray-500">{item.date}</Text>
     </View>
     <View className="flex-row items-center">
       <FontAwesome6 name="indian-rupee-sign" size={16} color="#1F2937" />
-      <Text className="text-gray-800 font-medium ml-2">
+      <Text className="ml-2 font-medium text-gray-800">
         {item.amount.toFixed(2)}
       </Text>
     </View>
   </View>
 );
 
+const categories = [
+  "All",
+  "Food",
+  "Transport",
+  "Entertainment",
+  "Shopping",
+  "Other",
+];
 const Customer = () => {
   const [visible, setVisible] = useState(false);
+  const router = useRouter();
 
   return (
     // ✅ Ideally have GestureHandlerRootView once in App.tsx, but this works for demo
     <>
-      <GestureHandlerRootView
-        style={{ flex: 1, position: "relative", backgroundColor: "#fff" }}
-      >
+      <GestureHandlerRootView>
         <FlatList
           // ListHeaderComponent={<Text>List of Customers</Text>}
           // stickyHeaderHiddenOnScroll={true}
@@ -56,10 +64,11 @@ const Customer = () => {
         </View>
 
         <Pressable
-          onPress={() => setVisible(true)}
+          // onPress={() => setVisible(true)}
+          onPress={() => router.navigate("/customer/create")}
           className="absolute bottom-6 right-6 z-10"
         >
-          <View className="size-16 items-center justify-center bg-green-700/90 rounded-full">
+          <View className="size-16 items-center justify-center rounded-full bg-teal-700/90">
             <FontAwesome6 name="plus" size={20} color="#fff" />
           </View>
         </Pressable>
@@ -67,7 +76,7 @@ const Customer = () => {
         <AppBottomSheetModal
           visible={visible}
           onClose={() => setVisible(false)}
-          title="Transactions"
+          title="Select Category"
           height="half" // "auto" | "half" | "full"
           onConfirm={() => {
             // Your save/apply logic here
@@ -75,7 +84,7 @@ const Customer = () => {
           }}
           contentClassName="px-2 "
         >
-          <FlatList
+          {/* <FlatList
             data={dummyTransactions}
             keyExtractor={(item) => item.id}
             renderItem={renderTransaction}
@@ -84,7 +93,24 @@ const Customer = () => {
             maxToRenderPerBatch={8}
             windowSize={5}
             removeClippedSubviews
-          />
+          /> */}
+          {/* Category Filter selection */}
+          <View className="flex-row flex-wrap gap-2 p-2">
+            {categories.map((category) => (
+              <Pressable
+                key={category}
+                onPress={() => {
+                  // Handle category selection
+                  setVisible(false);
+                }}
+                className=" rounded-lg bg-gray-100 px-4 py-2 hover:bg-gray-200"
+              >
+                <Text className="text-lg font-semibold text-gray-800">
+                  {category}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
         </AppBottomSheetModal>
       </GestureHandlerRootView>
     </>

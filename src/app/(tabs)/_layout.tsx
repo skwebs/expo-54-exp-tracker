@@ -60,13 +60,14 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "teal",
+        popToTopOnBlur: true, // added this to pop to top on tab switch
         // headerShown: false,
         // tabBarButton: HapticTab,
         tabBarStyle: {
           height: 56, // Increase tab bar height if padding pushes label upward
         },
       }}
-      backBehavior="order"
+      // backBehavior="order"
     >
       <Tabs.Screen
         name="index"
@@ -90,6 +91,7 @@ export default function TabLayout() {
         name="customer"
         options={{
           title: "Customer",
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="person" size={28} color={color} />
           ),
@@ -108,6 +110,7 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: "Settings",
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <FontAwesome6 name="gear" size={28} color={color} />
           ),

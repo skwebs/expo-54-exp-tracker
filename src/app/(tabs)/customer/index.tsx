@@ -10,21 +10,28 @@ import {
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import AppBottomSheetModal from "@/components/AppBottomSheetModal"; // adjust path
+import AppBottomSheetModal from "@/components/AppBottomSheetModal";
 import { dummyTransactions } from "@/data/dummyTransactions";
 import { useRouter } from "expo-router";
 
 const renderTransaction = ({
   item,
 }: ListRenderItemInfo<(typeof dummyTransactions)[0]>) => (
-  <View className="flex-row justify-between border-b border-gray-200 px-4 py-3">
+  <View className="flex-row justify-between border-b border-gray-200 px-4 py-3 dark:border-gray-900">
     <View className="flex-1">
-      <Text className="font-medium text-gray-800">{item.description}</Text>
+      <Text className="font-medium text-gray-800 dark:text-gray-300">
+        {item.description}
+      </Text>
       <Text className="text-sm text-gray-500">{item.date}</Text>
     </View>
     <View className="flex-row items-center">
-      <FontAwesome6 name="indian-rupee-sign" size={16} color="#1F2937" />
-      <Text className="ml-2 font-medium text-gray-800">
+      <FontAwesome6
+        name="indian-rupee-sign"
+        size={16}
+        color="#888888"
+        className="fill-white text-gray-100 dark:text-gray-300"
+      />
+      <Text className="ml-2 font-medium text-gray-800 dark:text-gray-300">
         {item.amount.toFixed(2)}
       </Text>
     </View>

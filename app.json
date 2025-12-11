@@ -4,7 +4,7 @@
     "slug": "my-wallet",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/custom/rupee.png",
+    "icon": "./src/assets/images/custom/icon2.png",
     "scheme": "mywallet",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,9 +14,9 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./src/assets/images/custom/rupee.png",
+        "foregroundImage": "./src/assets/images/custom/icon-rupee.png",
         "backgroundImage": "./src/assets/images/custom/android-icon-background.png",
-        "monochromeImage": "./src/assets/images/custom/rupee.png"
+        "monochromeImage": "./src/assets/images/custom/icon-rupee.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -31,7 +31,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./src/assets/images/custom/rupee.png",
+          "image": "./src/assets/images/custom/adaptive-icon-rupee.png",
           "imageWidth": 200,
           "resizeMode": "cover",
           "backgroundColor": "#ffffff",

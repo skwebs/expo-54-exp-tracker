@@ -106,7 +106,7 @@ export default function SignInScreen() {
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 justify-center items-center bg-white px-6"
+      className="flex-1 items-center justify-center bg-white px-6"
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <Text className="mb-8 text-3xl font-semibold text-gray-800">Sign In</Text>
@@ -116,9 +116,9 @@ export default function SignInScreen() {
         control={control}
         name="email"
         render={({ field: { onChange, onBlur, value } }) => (
-          <View className="w-full mb-2">
+          <View className="mb-2 w-full">
             <TextInput
-              className={`border rounded-lg px-4 py-3 text-base text-gray-700 focus:border-gray-400  ${
+              className={`rounded-lg border px-4 py-3 text-base text-gray-700 focus:border-gray-400  ${
                 errors.email || serverError?.email
                   ? "border-red-500 "
                   : "border-gray-300"
@@ -133,7 +133,7 @@ export default function SignInScreen() {
               }}
               value={value}
             />
-            <Text className="text-red-500 text-xs my-1">
+            <Text className="my-1 text-xs text-red-500">
               {errors.email?.message || serverError?.email?.[0] || ""}
             </Text>
           </View>
@@ -145,10 +145,10 @@ export default function SignInScreen() {
         control={control}
         name="password"
         render={({ field: { onChange, onBlur, value } }) => (
-          <View className="w-full mb-2">
+          <View className="mb-2 w-full">
             <View className="relative">
               <TextInput
-                className={`border rounded-lg px-4 py-3 pr-12 text-base text-gray-700 focus:border-gray-400 ${
+                className={`rounded-lg border px-4 py-3 pr-12 text-base text-gray-700 focus:border-gray-400 ${
                   errors.password || serverError?.password
                     ? "border-red-500"
                     : "border-gray-300"
@@ -173,7 +173,7 @@ export default function SignInScreen() {
                 />
               </TouchableOpacity>
             </View>
-            <Text className="text-red-500 text-xs my-1">
+            <Text className="my-1 text-xs text-red-500">
               {errors.password?.message || serverError?.password?.[0] || ""}
             </Text>
           </View>
@@ -181,7 +181,7 @@ export default function SignInScreen() {
       />
 
       {/* ✅ Forgot Password Link */}
-      <View className="w-full items-end mb-4">
+      <View className="mb-4 w-full items-end">
         <TouchableOpacity
           onPress={() => {
             router.push("/forgot-password");
@@ -190,7 +190,7 @@ export default function SignInScreen() {
             setServerError({});
           }}
         >
-          <Text className="text-orange-500 font-medium text-sm">
+          <Text className="text-sm font-medium text-orange-500">
             Forgot Password?
           </Text>
         </TouchableOpacity>
@@ -198,7 +198,7 @@ export default function SignInScreen() {
 
       {/* ✅ Sign In Button */}
       <TouchableOpacity
-        className={`w-full rounded-lg px-4 py-3 items-center mb-4 ${
+        className={`mb-4 w-full items-center rounded-lg px-4 py-3 ${
           loading ? "bg-orange-300" : "bg-orange-500"
         }`}
         onPress={handleSubmit(onSubmit)}
@@ -207,13 +207,13 @@ export default function SignInScreen() {
         {loading ? (
           <ActivityIndicator color="#fff" />
         ) : (
-          <Text className="text-white font-medium text-base">Sign In</Text>
+          <Text className="text-base font-medium text-white">Sign In</Text>
         )}
       </TouchableOpacity>
 
       {/* ✅ Navigation to Register */}
-      <View className="flex-row items-center mt-4">
-        <Text className="text-gray-600 text-sm">
+      <View className="mt-4 flex-row items-center">
+        <Text className="text-sm text-gray-600">
           Don&apos;t have an account?{" "}
         </Text>
         <TouchableOpacity
@@ -224,7 +224,7 @@ export default function SignInScreen() {
             setServerError({});
           }}
         >
-          <Text className="text-orange-500 font-medium text-sm">
+          <Text className="text-sm font-medium text-orange-500">
             Create One
           </Text>
         </TouchableOpacity>

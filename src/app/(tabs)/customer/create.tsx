@@ -1,10 +1,28 @@
 // src/app/(tabs)/customer.tsx
-import React, { useState } from "react";
-import { Pressable, Text, TouchableOpacity, View } from "react-native";
+import React, { useRef, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import {
+  Pressable,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import AppBottomSheetModal from "@/components/AppBottomSheetModal";
 import Feather from "@expo/vector-icons/Feather";
+import { z } from "zod";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const schema = z.object({
+  firstName: z.string().min(1, "Required"),
+  middleName: z.string().optional(),
+  lastName: z.string().min(1, "Required"),
+});
+
+type FormData = z.infer<typeof schema>;
 
 const categories = ["All", "Food", "Transport", "Entert.", "Shopping", "Other"];
 
@@ -12,6 +30,17 @@ const Customer = () => {
   const [visible, setVisible] = useState(false);
 
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const input2Ref = useRef<TextInput | null>(null);
+  const input3Ref = useRef<TextInput | null>(null);
+
+  const { control, handleSubmit } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      firstName: "",
+      middleName: "",
+      lastName: "",
+    },
+  });
 
   return (
     // ✅ Ideally have GestureHandlerRootView once in App.tsx, but this works for demo
@@ -28,6 +57,120 @@ const Customer = () => {
                 {selectedCategory}
               </Text>
             </Pressable>
+          </View>
+          {/* <View className="flex gap-2">
+            <TextInput
+              className="w-full rounded-lg border border-gray-300 p-3 text-lg text-gray-800"
+              placeholder="Enter first name"
+              returnKeyType="next"
+              // blurOnSubmit={false}
+              onSubmitEditing={() => input2Ref.current?.focus()}
+              submitBehavior="submit"
+            />
+
+            <TextInput
+              ref={input2Ref}
+              className="w-full rounded-lg border border-gray-300 p-3 text-lg text-gray-800"
+              placeholder="Enter middle name"
+              returnKeyType="next"
+              // blurOnSubmit={false}
+              onSubmitEditing={() => input3Ref.current?.focus()}
+              submitBehavior="submit"
+            />
+
+            <TextInput
+              ref={input3Ref}
+              className="w-full rounded-lg border border-gray-300 p-3 text-lg text-gray-800"
+              placeholder="Enter last name"
+              returnKeyType="done"
+            />
+          </View> */}
+
+          <View className="mt-5 flex gap-2">
+            <Controller
+              control={control}
+              name="firstName"
+              render={({
+                field: { onChange, onBlur, value },
+                fieldState: { error },
+              }) => (
+                <>
+                  <TextInput
+                    className="w-full rounded-lg border border-gray-300 p-3 text-lg text-gray-800"
+                    placeholder="Enter first name"
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    returnKeyType="next"
+                    submitBehavior="submit"
+                    onSubmitEditing={() => input2Ref.current?.focus()}
+                  />
+                  {error && (
+                    <Text className="text-xs text-red-500">
+                      {error.message}
+                    </Text>
+                  )}
+                </>
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="middleName"
+              render={({
+                field: { onChange, onBlur, value },
+                fieldState: { error },
+              }) => (
+                <>
+                  <TextInput
+                    ref={input2Ref}
+                    className="w-full rounded-lg border border-gray-300 p-3 text-lg text-gray-800"
+                    placeholder="Enter middle name"
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    returnKeyType="next"
+                    submitBehavior="submit"
+                    onSubmitEditing={() => input3Ref.current?.focus()}
+                  />
+                  {error && (
+                    <Text className="text-xs text-red-500">
+                      {error.message}
+                    </Text>
+                  )}
+                </>
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="lastName"
+              render={({
+                field: { onChange, onBlur, value },
+                fieldState: { error },
+              }) => (
+                <>
+                  <TextInput
+                    ref={input3Ref}
+                    className="w-full rounded-lg border border-gray-300 p-3 text-lg text-gray-800"
+                    placeholder="Enter last name"
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    returnKeyType="done"
+                    submitBehavior="submit"
+                    onSubmitEditing={handleSubmit((onValid) => {
+                      // final submit here
+                    })}
+                  />
+                  {error && (
+                    <Text className="text-xs text-red-500">
+                      {error.message}
+                    </Text>
+                  )}
+                </>
+              )}
+            />
           </View>
         </View>
 

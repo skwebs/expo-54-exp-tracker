@@ -14,7 +14,8 @@
     "android:build:split:bat": "bash scripts/build.bat",
     "build-android": "expo prebuild && cd android && gradlew.bat clean && gradlew.bat assembleRelease",
     "build-android-clean": "expo prebuild --clean && cd android && gradlew.bat clean && gradlew.bat assembleRelease",
-    "kill": "npx kill-port 8081"
+    "kill": "npx kill-port 8081",
+    "expo:update": "npx expo install --fix"
   },
   "dependencies": {
     "@apollo/client": "^4.0.9",
@@ -27,7 +28,7 @@
     "@react-navigation/native": "^7.1.8",
     "@tanstack/react-query": "^5.90.7",
     "axios": "^1.13.0",
-    "expo": "^54.0.27",
+    "expo": "~54.0.29",
     "expo-application": "~7.0.8",
     "expo-clipboard": "~8.0.8",
     "expo-constants": "~18.0.9",
@@ -35,7 +36,7 @@
     "expo-image": "~3.0.11",
     "expo-linear-gradient": "~15.0.8",
     "expo-linking": "~8.0.10",
-    "expo-router": "~6.0.17",
+    "expo-router": "~6.0.19",
     "expo-secure-store": "~15.0.8",
     "expo-splash-screen": "~31.0.12",
     "expo-status-bar": "~3.0.9",

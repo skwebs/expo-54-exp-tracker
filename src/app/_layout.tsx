@@ -44,7 +44,7 @@
 // }
 import { useAuthStore } from "@/store/authStore";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { Alert, BackHandler, useColorScheme } from "react-native";
@@ -65,7 +65,6 @@ import {
 export const unstable_settings = {
   anchor: "(tabs)",
 };
-
 export default function RootLayout() {
   const { isAuthenticated } = useAuthStore();
   const colorScheme = useColorScheme();
@@ -85,18 +84,22 @@ export default function RootLayout() {
         },
       }),
   );
+  const router = useRouter();
 
   useEffect(() => {
     const backAction = () => {
-      console.log("backAction");
-      Alert.alert("Hold on!", "Are you sure you want to go back?", [
-        {
-          text: "Cancel",
-          onPress: () => null,
-          style: "cancel",
-        },
-        { text: "YES", onPress: () => BackHandler.exitApp() },
-      ]);
+      if (router.canGoBack()) {
+        router.back();
+      } else {
+        Alert.alert("Hold on!", "Are you sure you want to go back?", [
+          {
+            text: "Cancel",
+            onPress: () => null,
+            style: "cancel",
+          },
+          { text: "YES", onPress: () => BackHandler.exitApp() },
+        ]);
+      }
       return true;
     };
 

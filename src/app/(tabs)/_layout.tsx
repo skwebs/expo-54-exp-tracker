@@ -61,11 +61,6 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: "teal",
         popToTopOnBlur: true, // added this to pop to top on tab switch
-        // headerShown: false,
-        // tabBarButton: HapticTab,
-        tabBarStyle: {
-          height: 56, // Increase tab bar height if padding pushes label upward
-        },
       }}
       // backBehavior="order"
     >

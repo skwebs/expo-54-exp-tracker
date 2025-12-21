@@ -126,7 +126,7 @@ const AppBottomSheetModalComponent: React.FC<AppBottomSheetModalProps> = ({
         <View
           style={contentStyle}
           className={cn(
-            "h-1/2 overflow-hidden rounded-t-3xl bg-white",
+            "h-1/2 overflow-hidden rounded-t-3xl bg-white dark:bg-gray-900",
             contentWrapperClassName,
           )}
         >

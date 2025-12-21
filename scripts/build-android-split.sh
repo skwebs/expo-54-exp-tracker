@@ -12,7 +12,7 @@ npx expo prebuild --clean
 
 # Build
 cd android
-if command -v ./gradlew.bat >/dev/null 2>&1; then
+if [ -f ./gradlew.bat ]; then
     ./gradlew.bat clean :app:assembleRelease
 else
     ./gradlew clean :app:assembleRelease

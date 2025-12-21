@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Dimensions,
   KeyboardAvoidingView,
   Modal,
   Platform,
@@ -11,6 +12,9 @@ import {
 } from "react-native";
 import Animated, { SlideInDown } from "react-native-reanimated";
 import { Transaction } from "./TransactionList";
+
+const screenHeight = Dimensions.get("window").height;
+const maxHeight = screenHeight * 0.85;
 
 interface AddTransactionModalProps {
   visible: boolean;
@@ -79,7 +83,6 @@ export default function AddTransactionModal({
     setCategory("");
     onClose();
   }
-
   return (
     <Modal
       animationType="fade"
@@ -107,35 +110,35 @@ export default function AddTransactionModal({
             >
               <Animated.View
                 entering={SlideInDown.springify()}
-                className="bg-white dark:bg-gray-900 rounded-t-3xl"
+                className="rounded-t-3xl bg-white dark:bg-gray-900"
               >
                 <ScrollView
-                  className="max-h-[85vh]"
+                  style={{ maxHeight }}
                   showsVerticalScrollIndicator={false}
                   keyboardShouldPersistTaps="handled"
                 >
                   <View className="p-6">
                     {/* Header */}
-                    <View className="flex-row items-center justify-between mb-6">
+                    <View className="mb-6 flex-row items-center justify-between">
                       <Text className="text-2xl font-bold text-gray-800 dark:text-gray-200">
                         Add Transaction
                       </Text>
                       <TouchableOpacity
                         onPress={handleClose}
-                        className="w-8 h-8 items-center justify-center"
+                        className="h-8 w-8 items-center justify-center"
                       >
-                        <Text className="text-gray-400 text-2xl">×</Text>
+                        <Text className="text-2xl text-gray-400">×</Text>
                       </TouchableOpacity>
                     </View>
 
                     {/* Type Selector */}
-                    <View className="flex-row gap-3 mb-6">
+                    <View className="mb-6 flex-row gap-3">
                       <TouchableOpacity
                         onPress={() => setType("debit")}
-                        className={`flex-1 py-3 rounded-xl border-2 ${
+                        className={`flex-1 rounded-xl border-2 py-3 ${
                           type === "debit"
-                            ? "bg-red-50 border-red-500 dark:bg-red-900/20 dark:border-red-400"
-                            : "bg-gray-50 border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+                            ? "border-red-500 bg-red-50 dark:border-red-400 dark:bg-red-900/20"
+                            : "border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800"
                         }`}
                       >
                         <Text
@@ -151,10 +154,10 @@ export default function AddTransactionModal({
 
                       <TouchableOpacity
                         onPress={() => setType("credit")}
-                        className={`flex-1 py-3 rounded-xl border-2 ${
+                        className={`flex-1 rounded-xl border-2 py-3 ${
                           type === "credit"
-                            ? "bg-green-50 border-green-500 dark:bg-green-900/20 dark:border-green-400"
-                            : "bg-gray-50 border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+                            ? "border-green-500 bg-green-50 dark:border-green-400 dark:bg-green-900/20"
+                            : "border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800"
                         }`}
                       >
                         <Text
@@ -171,7 +174,7 @@ export default function AddTransactionModal({
 
                     {/* Title Input */}
                     <View className="mb-4">
-                      <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <Text className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Title *
                       </Text>
                       <TextInput
@@ -179,17 +182,17 @@ export default function AddTransactionModal({
                         onChangeText={setTitle}
                         placeholder="e.g., Grocery Shopping"
                         placeholderTextColor="#9ca3af"
-                        className="border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-3 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
+                        className="rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                       />
                     </View>
 
                     {/* Amount Input */}
                     <View className="mb-4">
-                      <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <Text className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Amount *
                       </Text>
-                      <View className="flex-row items-center border border-gray-300 dark:border-gray-700 rounded-xl px-4 bg-white dark:bg-gray-800">
-                        <Text className="text-gray-500 dark:text-gray-400 text-lg mr-2">
+                      <View className="flex-row items-center rounded-xl border border-gray-300 bg-white px-4 dark:border-gray-700 dark:bg-gray-800">
+                        <Text className="mr-2 text-lg text-gray-500 dark:text-gray-400">
                           ₹
                         </Text>
                         <TextInput
@@ -198,14 +201,14 @@ export default function AddTransactionModal({
                           placeholder="0.00"
                           placeholderTextColor="#9ca3af"
                           keyboardType="decimal-pad"
-                          className="flex-1 py-3 text-gray-800 dark:text-gray-200 text-lg"
+                          className="flex-1 py-3 text-lg text-gray-800 dark:text-gray-200"
                         />
                       </View>
                     </View>
 
                     {/* Description Input */}
                     <View className="mb-4">
-                      <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <Text className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Description
                       </Text>
                       <TextInput
@@ -215,14 +218,14 @@ export default function AddTransactionModal({
                         placeholderTextColor="#9ca3af"
                         multiline
                         numberOfLines={3}
-                        className="border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-3 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
+                        className="rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                         style={{ textAlignVertical: "top" }}
                       />
                     </View>
 
                     {/* Category Selector */}
                     <View className="mb-6">
-                      <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <Text className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Category
                       </Text>
                       <View className="flex-row flex-wrap gap-2">
@@ -232,10 +235,10 @@ export default function AddTransactionModal({
                             onPress={() =>
                               setCategory(cat === category ? "" : cat)
                             }
-                            className={`px-4 py-2 rounded-full border ${
+                            className={`rounded-full border px-4 py-2 ${
                               category === cat
-                                ? "bg-orange-500 border-orange-500"
-                                : "bg-gray-100 border-gray-300 dark:bg-gray-800 dark:border-gray-700"
+                                ? "border-orange-500 bg-orange-500"
+                                : "border-gray-300 bg-gray-100 dark:border-gray-700 dark:bg-gray-800"
                             }`}
                           >
                             <Text
@@ -256,9 +259,9 @@ export default function AddTransactionModal({
                     <TouchableOpacity
                       onPress={handleSubmit}
                       activeOpacity={0.8}
-                      className="bg-orange-500 rounded-xl py-4 items-center"
+                      className="items-center rounded-xl bg-orange-500 py-4"
                     >
-                      <Text className="text-white font-semibold text-lg">
+                      <Text className="text-lg font-semibold text-white">
                         Add Transaction
                       </Text>
                     </TouchableOpacity>

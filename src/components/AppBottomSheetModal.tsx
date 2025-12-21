@@ -1,6 +1,7 @@
-// src/components/AppBottomSheetModal.tsx
-import React, { useCallback, useEffect, useState, type ReactNode } from "react";
-import { Pressable, View, ViewStyle } from "react-native";
+// ==============================================================================================================
+import { cn } from "@/lib/cn";
+import React, { useEffect, type ReactNode } from "react";
+import { Pressable, View, type ViewStyle } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -11,32 +12,26 @@ import {
   type ModalAnimationConfig,
   type ModalSwipeConfig,
 } from "react-native-reanimated-modal";
-
-type HeightVariant = "auto" | "half" | "full";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type AppBottomSheetModalProps = {
   visible: boolean;
-  onClose: () => void;
+  /** Called when the modal has fully opened (optional) */
+  onOpen?: () => void;
+  /** Called when the modal has fully closed (optional) */
+  onClose?: () => void;
 
-  title?: string;
-  showHeader?: boolean;
-
-  /** simple confirm callback (used by default right icon) */
-  onConfirm?: () => void;
-
-  /** custom header actions (optional, override defaults) */
-  renderLeftAction?: (close: () => void) => ReactNode;
-  renderRightAction?: (close: () => void) => ReactNode;
-
-  height?: HeightVariant;
   contentContainerStyle?: ViewStyle;
   contentClassName?: string;
 
   animationConfig?: ModalAnimationConfig<any>;
   swipeConfig?: ModalSwipeConfig;
 
-  /** Children will fade in AFTER modal fully shown */
+  /** Children will fade in AFTER modal is fully shown */
   children: ReactNode;
+  contentWrapperClassName?: string;
+  contentStyle?: ViewStyle;
+  topSafeAreaInset?: boolean;
 };
 
 const defaultSlideDown: ModalAnimationConfig<"slide"> = {
@@ -45,7 +40,6 @@ const defaultSlideDown: ModalAnimationConfig<"slide"> = {
   direction: "down",
 };
 
-// By default, disable vertical swipe so FlatList scroll is smooth
 const defaultSwipe: ModalSwipeConfig = {
   enabled: false,
 };
@@ -63,57 +57,51 @@ const advancedSwipe: ModalSwipeConfig = {
 
 const AppBottomSheetModalComponent: React.FC<AppBottomSheetModalProps> = ({
   visible,
+  onOpen,
   onClose,
-  title = "Modal",
-  showHeader = true,
-  onConfirm,
-  renderLeftAction,
-  renderRightAction,
-  height = "half",
   contentContainerStyle,
   contentClassName,
   animationConfig,
   swipeConfig,
   children,
+  contentWrapperClassName,
+  contentStyle,
+  topSafeAreaInset = false,
 }) => {
-  const [contentVisible, setContentVisible] = useState(false);
-
-  // Reanimated shared value for opacity
+  // const [contentVisible, setContentVisible] = useState(false);
   const opacity = useSharedValue(0);
 
-  const containerHeightClass =
-    height === "full" ? "h-full pt-10r" : height === "auto" ? "" : "h-1/2";
-
-  const handleClose = useCallback(() => {
-    onClose();
-  }, [onClose]);
-
-  // Reset content when modal is hidden
+  // Reset content visibility & opacity when modal is hidden
   useEffect(() => {
     if (!visible) {
-      setContentVisible(false);
-      // instantly reset opacity (no animation)
-      opacity.value = 0;
+      // setContentVisible(false);
+      opacity.value = 0; // instantly reset (no animation)
     }
   }, [visible, opacity]);
 
-  // Called when modal animation is complete and it's fully visible
-  const handleModalShow = () => {
-    setContentVisible(true);
-    // animate opacity to 1
+  // Called when modal is fully shown
+  const handleOpen = () => {
+    // setContentVisible(true);
     opacity.value = withTiming(1, { duration: 220 });
+    onOpen?.(); // safely call if provided
   };
 
-  // animated style for content area
-  const animatedContentStyle = useAnimatedStyle(() => {
-    return {
-      opacity: opacity.value,
-    };
-  });
+  // Called when modal is fully hidden
+  const handleClose = () => {
+    onClose?.(); // safely call if provided
+  };
+
+  const animatedContentStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
+
+  const insets = useSafeAreaInsets();
 
   return (
     <Modal
       visible={visible}
+      onShow={handleOpen}
+      onHide={handleClose}
       backdrop={{ enabled: true }}
       statusBarTranslucent
       navigationBarTranslucent
@@ -123,22 +111,31 @@ const AppBottomSheetModalComponent: React.FC<AppBottomSheetModalProps> = ({
         { flex: 1, justifyContent: "flex-end" },
         contentContainerStyle,
       ]}
-      onShow={handleModalShow}
     >
-      <View className="flex-1 justify-end">
+      <View className="flex-1">
         {/* Backdrop area – tap to close */}
-        <Pressable className="flex-1" onPress={handleClose} />
+        <Pressable
+          style={{ flex: 1, paddingTop: topSafeAreaInset ? insets.top : 0 }}
+          onPress={() => {
+            // Also allow closing via backdrop tap
+            handleClose();
+          }}
+        />
 
-        {/* Bottom sheet */}
+        {/* Bottom sheet content */}
         <View
-          className={`overflow-hidden rounded-t-3xl bg-white ${containerHeightClass}`}
+          style={contentStyle}
+          className={cn(
+            "h-1/2 overflow-hidden rounded-t-3xl bg-white",
+            contentWrapperClassName,
+          )}
         >
-          {/* Content area with Reanimated fade-in */}
           <Animated.View
             style={[{ flex: 1 }, animatedContentStyle]}
             className={contentClassName}
           >
-            {contentVisible ? children : null}
+            {children}
+            {/* {contentVisible ? children : null} */}
           </Animated.View>
         </View>
       </View>

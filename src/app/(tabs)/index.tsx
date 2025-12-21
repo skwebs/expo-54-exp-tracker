@@ -395,7 +395,7 @@ export default function Index() {
                 /
               </Text>
               <Text className="text-base font-semibold text-emerald-600 dark:text-emerald-400">
-                {budget.toLocaleString("en-IN")}.00r
+                {budget.toLocaleString("en-IN")}.00
               </Text>
             </View>
             <Text className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">

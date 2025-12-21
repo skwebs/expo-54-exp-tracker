@@ -40,6 +40,7 @@ interface ServerErrorResponse {
   name?: string[];
   email?: string[];
   password?: string[];
+  confirmPassword?: string[];
 }
 
 // ✅ Extracted Password Input Component for reusability
@@ -51,6 +52,7 @@ interface PasswordInputProps {
   error?: string;
   showPassword: boolean;
   toggleShowPassword: () => void;
+  editable?: boolean;
 }
 
 const PasswordInput = React.memo<PasswordInputProps>(
@@ -62,11 +64,12 @@ const PasswordInput = React.memo<PasswordInputProps>(
     error,
     showPassword,
     toggleShowPassword,
+    editable = true,
   }) => (
     <View className="w-full">
       <View className="relative">
         <TextInput
-          className={`border rounded-lg px-4 py-3 pr-12 text-base text-gray-700 ${
+          className={`rounded-lg border px-4 py-3 pr-12 text-base text-gray-700 ${
             error ? "border-red-600" : "border-gray-200"
           }`}
           placeholder={placeholder}
@@ -78,6 +81,7 @@ const PasswordInput = React.memo<PasswordInputProps>(
           autoCorrect={false}
           textContentType="password"
           accessibilityLabel={placeholder}
+          editable={editable}
         />
         <TouchableOpacity
           className="absolute right-3 top-3"
@@ -92,11 +96,11 @@ const PasswordInput = React.memo<PasswordInputProps>(
           />
         </TouchableOpacity>
       </View>
-      <View className="h-5 mb-2">
-        {error && <Text className="text-red-600 text-xs">{error}</Text>}
+      <View className="mb-2 h-5">
+        {error && <Text className="text-xs text-red-600">{error}</Text>}
       </View>
     </View>
-  )
+  ),
 );
 
 PasswordInput.displayName = "PasswordInput";
@@ -164,7 +168,7 @@ export default function RegisterScreen() {
               "Content-Type": "application/json",
             },
             timeout: 10000, // ✅ Add timeout to prevent hanging
-          }
+          },
         );
 
         // ✅ Store auth data securely in Zustand + SecureStore
@@ -234,7 +238,7 @@ export default function RegisterScreen() {
         setIsSubmitting(false);
       }
     },
-    [isSubmitting, setAuth, reset]
+    [isSubmitting, setAuth, reset],
   );
 
   // ✅ Memoized navigation handler
@@ -249,7 +253,7 @@ export default function RegisterScreen() {
     (field: keyof ServerErrorResponse) => {
       return serverError[field]?.[0];
     },
-    [serverError]
+    [serverError],
   );
 
   return (
@@ -264,7 +268,7 @@ export default function RegisterScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View className="py-8">
-          <Text className="mb-8 text-3xl font-semibold text-gray-800 text-center">
+          <Text className="mb-8 text-center text-3xl font-semibold text-gray-800">
             Create Account
           </Text>
 
@@ -275,7 +279,7 @@ export default function RegisterScreen() {
             render={({ field: { onChange, onBlur, value } }) => (
               <View className="w-full">
                 <TextInput
-                  className={`border rounded-lg px-4 py-3 text-base text-gray-700 ${
+                  className={`rounded-lg border px-4 py-3 text-base text-gray-700 ${
                     errors.name || getServerError("name")
                       ? "border-red-600"
                       : "border-gray-200"
@@ -294,9 +298,9 @@ export default function RegisterScreen() {
                   editable={!isSubmitting}
                   accessibilityLabel="Full Name"
                 />
-                <View className="h-5 mb-2">
+                <View className="mb-2 h-5">
                   {(errors.name?.message || getServerError("name")) && (
-                    <Text className="text-red-600 text-xs">
+                    <Text className="text-xs text-red-600">
                       {errors.name?.message || getServerError("name")}
                     </Text>
                   )}
@@ -312,7 +316,7 @@ export default function RegisterScreen() {
             render={({ field: { onChange, onBlur, value } }) => (
               <View className="w-full">
                 <TextInput
-                  className={`border rounded-lg px-4 py-3 text-base text-gray-700 ${
+                  className={`rounded-lg border px-4 py-3 text-base text-gray-700 ${
                     errors.email || getServerError("email")
                       ? "border-red-600"
                       : "border-gray-200"
@@ -333,9 +337,9 @@ export default function RegisterScreen() {
                   editable={!isSubmitting}
                   accessibilityLabel="Email"
                 />
-                <View className="h-5 mb-2">
+                <View className="mb-2 h-5">
                   {(errors.email?.message || getServerError("email")) && (
-                    <Text className="text-red-600 text-xs">
+                    <Text className="text-xs text-red-600">
                       {errors.email?.message || getServerError("email")}
                     </Text>
                   )}
@@ -357,6 +361,7 @@ export default function RegisterScreen() {
                   onChange(text);
                   clearServerErrors();
                 }}
+                editable={!isSubmitting}
                 error={errors.password?.message || getServerError("password")}
                 showPassword={showPassword}
                 toggleShowPassword={togglePassword}
@@ -373,17 +378,24 @@ export default function RegisterScreen() {
                 value={value}
                 placeholder="Confirm Password"
                 onBlur={onBlur}
-                onChangeText={onChange}
-                error={errors.confirmPassword?.message}
+                onChangeText={(text) => {
+                  onChange(text);
+                  clearServerErrors();
+                }}
+                error={
+                  errors.confirmPassword?.message ||
+                  getServerError("confirmPassword")
+                }
                 showPassword={showConfirmPassword}
                 toggleShowPassword={toggleConfirmPassword}
+                editable={!isSubmitting}
               />
             )}
           />
 
           {/* ✅ Submit Button with Loading State */}
           <TouchableOpacity
-            className={`w-full bg-orange-500 rounded-lg px-4 py-3 items-center mb-4 ${
+            className={`mb-4 w-full items-center rounded-lg bg-orange-500 px-4 py-3 ${
               isSubmitting ? "opacity-70" : ""
             }`}
             onPress={handleSubmit(onSubmit)}
@@ -395,15 +407,15 @@ export default function RegisterScreen() {
             {isSubmitting ? (
               <ActivityIndicator color="#fff" size="small" />
             ) : (
-              <Text className="text-white font-medium text-base">
+              <Text className="text-base font-medium text-white">
                 Create Account
               </Text>
             )}
           </TouchableOpacity>
 
           {/* ✅ Sign In Button */}
-          <View className="flex-row items-center justify-center mt-8">
-            <Text className="text-gray-600 text-sm">
+          <View className="mt-8 flex-row items-center justify-center">
+            <Text className="text-sm text-gray-600">
               Already have an account?{" "}
             </Text>
             <TouchableOpacity
@@ -412,7 +424,7 @@ export default function RegisterScreen() {
               accessibilityLabel="Sign In"
               accessibilityRole="button"
             >
-              <Text className="text-orange-500 font-medium text-sm">
+              <Text className="text-sm font-medium text-orange-500">
                 Sign In
               </Text>
             </TouchableOpacity>

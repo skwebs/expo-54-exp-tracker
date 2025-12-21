@@ -205,7 +205,6 @@ export default function Account() {
         },
       );
       setAccountData(res);
-      console.log("Token:", token);
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 401) {

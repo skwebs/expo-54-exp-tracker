@@ -46,8 +46,8 @@ import { useAuthStore } from "@/store/authStore";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
-import { useColorScheme } from "react-native";
+import { useEffect, useState } from "react";
+import { Alert, BackHandler, useColorScheme } from "react-native";
 import "react-native-reanimated";
 import {
   SafeAreaProvider,
@@ -85,6 +85,28 @@ export default function RootLayout() {
         },
       }),
   );
+
+  useEffect(() => {
+    const backAction = () => {
+      console.log("backAction");
+      Alert.alert("Hold on!", "Are you sure you want to go back?", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel",
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>

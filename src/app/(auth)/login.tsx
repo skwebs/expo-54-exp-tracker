@@ -56,8 +56,7 @@ export default function SignInScreen() {
       });
 
       // Save auth data in Zustand store
-      setAuth(await res.token, await res.user);
-
+      setAuth(res.token, res.user);
       Toast.show({
         type: "success",
         text1: "Login Successful",
@@ -66,7 +65,6 @@ export default function SignInScreen() {
 
       // Navigate to home/dashboard
       // router.replace("/(tabs)");
-      console.log("Token:", res.token);
     } catch (error) {
       if (isAxiosError(error)) {
         const status = error.response?.status;
